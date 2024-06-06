@@ -1,0 +1,201 @@
+{
+  "conversations": [
+    {
+      "id": "sn4zmysy",
+      "userName": "minim",
+      "userAvatarUrl": "https://picsum.photos/id/45/100",
+      "title": "deserunt tempor deserunt",
+      "createdAt": 1717632000000,
+      "updatedAt": 1717632000000
+    },
+    {
+      "id": "lzr6em2b",
+      "userName": "magna",
+      "userAvatarUrl": "https://picsum.photos/id/23/100",
+      "title": "elit aute enim",
+      "createdAt": 1717631400000,
+      "updatedAt": 1717657959620
+    },
+    {
+      "id": "b52j528z",
+      "userName": "irure",
+      "userAvatarUrl": "https://picsum.photos/id/49/100",
+      "title": "laborum nisi consectetur",
+      "createdAt": 1717630800000,
+      "updatedAt": 1717630800000
+    },
+    {
+      "id": "reindoqq",
+      "userName": "amet",
+      "userAvatarUrl": "https://picsum.photos/id/80/100",
+      "title": "in exercitation eu",
+      "createdAt": 1717630200000,
+      "updatedAt": 1717630200000
+    },
+    {
+      "id": "lgvfgwtx",
+      "userName": "velit",
+      "userAvatarUrl": "https://picsum.photos/id/64/100",
+      "title": "do consequat quis",
+      "createdAt": 1717629600000,
+      "updatedAt": 1717629600000
+    },
+    {
+      "id": "jnpyxnrb",
+      "userName": "consequat",
+      "userAvatarUrl": "https://picsum.photos/id/55/100",
+      "title": "tempor esse ex",
+      "createdAt": 1717629000000,
+      "updatedAt": 1717629000000
+    },
+    {
+      "id": "bidjgfd0",
+      "userName": "occaecat",
+      "userAvatarUrl": "https://picsum.photos/id/97/100",
+      "title": "esse excepteur laboris",
+      "createdAt": 1717628400000,
+      "updatedAt": 1717628400000
+    },
+    {
+      "id": "3imuzyn0",
+      "userName": "esse",
+      "userAvatarUrl": "https://picsum.photos/id/85/100",
+      "title": "amet minim esse",
+      "createdAt": 1717627800000,
+      "updatedAt": 1717627800000
+    },
+    {
+      "id": "bbxghthr",
+      "userName": "eiusmod",
+      "userAvatarUrl": "https://picsum.photos/id/78/100",
+      "title": "exercitation reprehenderit ea",
+      "createdAt": 1717627200000,
+      "updatedAt": 1717627200000
+    },
+    {
+      "id": "q8jbfayc",
+      "userName": "fugiat",
+      "userAvatarUrl": "https://picsum.photos/id/70/100",
+      "title": "fugiat consectetur nostrud",
+      "createdAt": 1717626600000,
+      "updatedAt": 1717626600000
+    },
+    {
+      "id": "fboz24ra",
+      "userName": "consectetur",
+      "userAvatarUrl": "https://picsum.photos/id/38/100",
+      "title": "tempor aliqua id",
+      "createdAt": 1717626000000,
+      "updatedAt": 1717626000000
+    },
+    {
+      "id": "p9s6viq8",
+      "userName": "dolor",
+      "userAvatarUrl": "https://picsum.photos/id/41/100",
+      "title": "qui cupidatat minim",
+      "createdAt": 1717625400000,
+      "updatedAt": 1717625400000
+    },
+    {
+      "id": "ivncdcen",
+      "userName": "ipsum",
+      "userAvatarUrl": "https://picsum.photos/id/37/100",
+      "title": "sit veniam aute",
+      "createdAt": 1717624800000,
+      "updatedAt": 1717624800000
+    },
+    {
+      "id": "2gfvcofs",
+      "userName": "Lorem",
+      "userAvatarUrl": "https://picsum.photos/id/43/100",
+      "title": "aliqua aliqua commodo",
+      "createdAt": 1717624200000,
+      "updatedAt": 1717624200000
+    },
+    {
+      "id": "h12ril9z",
+      "userName": "tempor",
+      "userAvatarUrl": "https://picsum.photos/id/59/100",
+      "title": "mollit voluptate voluptate",
+      "createdAt": 1717623600000,
+      "updatedAt": 1717623600000
+    },
+    {
+      "id": "9ucp1dse",
+      "userName": "reprehenderit",
+      "userAvatarUrl": "https://picsum.photos/id/73/100",
+      "title": "fugiat excepteur ea",
+      "createdAt": 1717623000000,
+      "updatedAt": 1717623000000
+    },
+    {
+      "id": "1hj4vgre",
+      "userName": "consequat",
+      "userAvatarUrl": "https://picsum.photos/id/57/100",
+      "title": "occaecat fugiat aliquip",
+      "createdAt": 1717622400000,
+      "updatedAt": 1717622400000
+    },
+    {
+      "id": "6vfdyfsv",
+      "userName": "quis",
+      "userAvatarUrl": "https://picsum.photos/id/10/100",
+      "title": "ad commodo ad",
+      "createdAt": 1717621800000,
+      "updatedAt": 1717621800000
+    },
+    {
+      "id": "yxl4ia5p",
+      "userName": "incididunt",
+      "userAvatarUrl": "https://picsum.photos/id/80/100",
+      "title": "ipsum exercitation id",
+      "createdAt": 1717621200000,
+      "updatedAt": 1717621200000
+    },
+    {
+      "id": "qgbauh6u",
+      "userName": "esse",
+      "userAvatarUrl": "https://picsum.photos/id/3/100",
+      "title": "enim sit sint",
+      "createdAt": 1717620600000,
+      "updatedAt": 1717620600000
+    }
+  ],
+  "emails": [
+    {
+      "id": "q89vwvjf",
+      "conversationId": "lzr6em2b",
+      "text": "Est id commodo excepteur veniam culpa reprehenderit quis cillum voluptate aliquip dolore et. Ut eiusmod labore dolor sunt velit ex. Laborum minim aliquip veniam laborum velit aliqua est fugiat consectetur minim commodo ad pariatur aute ullamco.",
+      "createdAt": 1717631400000,
+      "fromUser": true
+    },
+    {
+      "id": "m9m0z45b",
+      "conversationId": "lzr6em2b",
+      "text": "ㄹㄹㄹ",
+      "createdAt": 1717657957935,
+      "fromUser": false
+    },
+    {
+      "id": "8nfur1ra",
+      "conversationId": "lzr6em2b",
+      "text": "Cillum ea ea elit nisi ad Lorem laboris qui sint occaecat aute. Lorem consequat voluptate Lorem ullamco id exercitation ullamco laboris sint nisi eu excepteur id qui non. Consectetur nostrud veniam Lorem adipisicing.",
+      "createdAt": 1717657959620,
+      "fromUser": true
+    },
+    {
+      "id": "zvk7q8t0",
+      "conversationId": "sn4zmysy",
+      "text": "Anim tempor esse ea cupidatat. Excepteur pariatur qui ut reprehenderit cupidatat officia ut. Lorem sit sunt mollit culpa ad.",
+      "createdAt": 1717632000000,
+      "fromUser": true
+    },
+    {
+      "id": "04kfaeyu",
+      "conversationId": "b52j528z",
+      "text": "Sint quis sit nulla tempor aliquip excepteur ex sint ipsum consectetur. Aute consequat eu excepteur. Deserunt sunt cupidatat aliquip nostrud eiusmod irure incididunt dolor ad consequat labore.",
+      "createdAt": 1717630800000,
+      "fromUser": true
+    }
+  ]
+}
