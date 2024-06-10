@@ -19,6 +19,7 @@ function EmailArea(props: { selectedConversation: SelectedConversationType }) {
     const handlePutBodyData = useMutation(putConversationById, {
         onSuccess: (responseEmail: Email) => {
             //TODO conversation의 updateAt 바꾸기
+            setEmailList((prev) => [...prev, responseEmail]);
         },
         // error type에 대해 받은 것이 없어 임시 처리
         onError: (error: { response: { data: { message: string } } }) => {
@@ -62,6 +63,7 @@ function EmailArea(props: { selectedConversation: SelectedConversationType }) {
      */
     const handleEmail = useCallback((email: Email): void => {
         // TODO conversation updateAt
+        setEmailList((prev) => [...prev, email]);
     }, []);
 
     const _initEmailList = useCallback((propEmailList: Email[]): void => {
