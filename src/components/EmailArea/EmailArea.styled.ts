@@ -35,9 +35,9 @@ const EnterBox = styled.div`
     }
 `;
 
-const ConversationBox = styled.div<{ fromUser: boolean }>`
+const ConversationBox = styled.div<{ 'data-from-user': boolean }>`
     display: flex;
-    justify-content: ${(props) => (props.fromUser ? 'flex-start' : 'flex-end')};
+    justify-content: ${(props) => (props?.['data-from-user'] ? 'flex-start' : 'flex-end')};
 `;
 
 const ProfileImgBox = styled.div`
@@ -49,7 +49,7 @@ const ProfileImgBox = styled.div`
     }
 `;
 
-const TalkBox = styled.div<{ fromUser: boolean }>`
+const TalkBox = styled.div<{ 'data-from-user': boolean }>`
     max-width: 300px;
 
     .userName {
@@ -76,7 +76,7 @@ const TalkBox = styled.div<{ fromUser: boolean }>`
     }
 
     ${(props) =>
-        props.fromUser
+        props?.['data-from-user']
             ? `
     .text::after {
         content: '';

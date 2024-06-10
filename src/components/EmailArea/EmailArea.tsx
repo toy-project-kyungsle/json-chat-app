@@ -113,7 +113,7 @@ function EmailArea(props: { selectedConversation: SelectedConversationType }) {
                         {emailList.map((email) => (
                             <Styled.ConversationBox
                                 key={`email-box-${email.id}`}
-                                fromUser={email.fromUser}
+                                data-from-user={email.fromUser}
                                 data-testid="email"
                             >
                                 {email.fromUser === true && (
@@ -124,7 +124,7 @@ function EmailArea(props: { selectedConversation: SelectedConversationType }) {
                                         />
                                     </Styled.ProfileImgBox>
                                 )}
-                                <Styled.TalkBox fromUser={email.fromUser}>
+                                <Styled.TalkBox data-from-user={email.fromUser}>
                                     {email.fromUser === true && (
                                         <div className="userName">
                                             <span>{selectedConversation?.userName || ''}</span>
