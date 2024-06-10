@@ -79,7 +79,7 @@ function EmailArea() {
         });
         setTextAreaValue('');
         setBottomScroll(true);
-    }, [textAreaValue, conversationId]);
+    }, [conversationId, handlePutBodyData, textAreaValue]);
 
     // form 을 제출하는 함수
     const handleFormSubmit = useCallback(

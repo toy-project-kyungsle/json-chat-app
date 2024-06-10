@@ -1,5 +1,6 @@
 import { conversationApiInstance } from 'api/apiInstance';
 import { Email, Conversation } from 'utils/type';
+import { v4 as uuid } from 'uuid';
 
 /**
  * 서버에서 대화 목록을 가져옵니다.
@@ -30,8 +31,12 @@ export const getEmailListFromServer = async (conversationId: string) => {
  * @return {Promise<Email>} 업데이트된 대화 데이터입니다.
  */
 export const putConversationById = async (props: { conversationId: string; text: string }) => {
-    const response = await conversationApiInstance.put(`/${props.conversationId}/email`, {
+    const response = await conversationApiInstance.post(`/emails`, {
+        id: uuid(),
+        conversationId: props.conversationId,
         text: props.text,
+        createdAt: Date.now(),
+        fromUser: false,
     });
     return response.data;
 };

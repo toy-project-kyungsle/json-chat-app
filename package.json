@@ -17,9 +17,11 @@
         "socket.io-client": "^4.7.5"
     },
     "devDependencies": {
+        "@types/lodash": "^4.17.5",
         "@types/node": "^20",
         "@types/react": "^18",
         "@types/react-dom": "^18",
+        "@types/uuid": "^9.0.8",
         "axios": "^1.7.2",
         "eslint": "^8",
         "eslint-config-next": "14.2.3",
