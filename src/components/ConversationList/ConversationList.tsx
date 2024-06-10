@@ -74,7 +74,7 @@ function ConversationList(props: {
                         location.hash = '#' + conversation.id;
                     }}
                     data-testid="conversation"
-                    isSelected={selectedConversation?.conversationId === conversation.id}
+                    data-selected={selectedConversation?.conversationId === conversation.id}
                 >
                     <Styled.ProfileImage>
                         <img src={conversation.userAvatarUrl} alt="" />

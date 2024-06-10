@@ -6,9 +6,12 @@ const hoverConversationBackColor = '#eee';
 const subFontColor = '#555';
 
 // 주어진 속성과 호버 상태에 따라 대화의 배경색을 반환합니다.
-const getConversationBackColor = (props: { isSelected: boolean }, isHover: boolean): string => {
+const getConversationBackColor = (
+    props: { 'data-selected': boolean },
+    isHover: boolean,
+): string => {
     switch (true) {
-        case props?.isSelected === true:
+        case props?.['data-selected'] === true:
             return selectedConversationBackColor;
         case isHover:
             return hoverConversationBackColor;
@@ -23,7 +26,7 @@ const ConversationList = styled.div`
     overflow-y: scroll;
 `;
 
-const ConversationBox = styled.div<{ isSelected: boolean }>`
+const ConversationBox = styled.div<{ 'data-selected': boolean }>`
     display: flex;
     height: 60px;
     overflow: hidden;
