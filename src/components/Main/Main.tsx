@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore } from 'redux';
 import rootReducer from 'reducers';
 
 import Styled from './Main.styled';
+import { SelectedConversationType } from 'utils/type';
 
 function Main() {
     const queryCache = new QueryClient({
@@ -16,13 +17,21 @@ function Main() {
         },
     });
     const store = createStore(rootReducer);
+    const [selectedConversation, setSelectedConversation] = useState<SelectedConversationType>({
+        conversationId: null,
+        userName: null,
+        userAvatarUrl: null,
+    });
 
     return (
         <Provider store={store}>
             <QueryClientProvider client={queryCache}>
                 <Styled.Main>
-                    <Styled.ConversationList />
-                    <Styled.EmailArea />
+                    <Styled.ConversationList
+                        selectedConversation={selectedConversation}
+                        setSelectedConversation={setSelectedConversation}
+                    />
+                    <Styled.EmailArea selectedConversation={selectedConversation} />
                 </Styled.Main>
             </QueryClientProvider>
         </Provider>

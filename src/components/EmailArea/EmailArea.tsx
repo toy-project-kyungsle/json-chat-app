@@ -1,43 +1,24 @@
 // lib
 import React, { useEffect, useState, Fragment, useCallback, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { v4 as uuid } from 'uuid';
+import { useMutation, useQuery } from 'react-query';
 import io from 'socket.io-client';
 // etc
 import { getEmailListFromServer, putConversationById } from 'api/conversationApi';
-import { addGlobalEmailList } from 'reducers/globalEmailList';
-import { setGlobalEmailList } from 'reducers/globalEmailList';
-import { updateConversation } from 'reducers/globalConversationList';
-import { RootState } from 'reducers'; // type
 import Styled from './EmailArea.styled';
-import { Email } from 'utils/type';
+import { Email, SelectedConversationType } from 'utils/type';
 
 const socket = io();
 
-function EmailArea() {
-    const dispatch = useDispatch();
-
-    // * global state
-    const { conversationId, userName, userAvatarUrl, hasUpdate } = useSelector(
-        (state: RootState) => state.selectedConversationReducer,
-    );
-    const globalEmailList = useSelector((state: RootState) => state.globalEmailListReducer);
+function EmailArea(props: { selectedConversation: SelectedConversationType }) {
+    const { selectedConversation } = props;
     // * state
     const [textAreaValue, setTextAreaValue] = useState('');
-    const [bottomScroll, setBottomScroll] = useState(false);
-    // * ref
-    const emailListRef = useRef(null);
+    const [emailList, setEmailList] = useState<Email[]>([]);
     // * function
     // 새로운 이메일을 추가하는 mutation
     const handlePutBodyData = useMutation(putConversationById, {
         onSuccess: (responseEmail: Email) => {
-            dispatch(
-                updateConversation({
-                    conversationId: responseEmail.conversationId,
-                    updatedAt: responseEmail.createdAt,
-                }),
-            );
+            //TODO conversation의 updateAt 바꾸기
         },
         // error type에 대해 받은 것이 없어 임시 처리
         onError: (error: { response: { data: { message: string } } }) => {
@@ -47,28 +28,14 @@ function EmailArea() {
 
     // text area에서 작성한 내용을 서버에 전송합니다.
     const _submitTextToServer = useCallback((): void => {
-        const dummyEmail = {
-            id: uuid(),
-            conversationId,
-            text: textAreaValue,
-            createdAt: Date.now(),
-            fromUser: false,
-            isDummy: true,
-        };
-        dispatch(
-            addGlobalEmailList({
-                conversationId,
-                email: dummyEmail,
-            }),
-        );
+        if (!textAreaValue || !selectedConversation?.conversationId) return;
         handlePutBodyData.mutate({
-            conversationId: conversationId,
+            conversationId: selectedConversation.conversationId,
             text: textAreaValue,
         });
-        socket.emit('message', { conversationId, text: textAreaValue });
+        socket.emit('message', { conversationId: selectedConversation, text: textAreaValue });
         setTextAreaValue('');
-        setBottomScroll(true);
-    }, [conversationId, handlePutBodyData, textAreaValue]);
+    }, [selectedConversation, handlePutBodyData, textAreaValue]);
 
     // form 을 제출하는 함수
     const handleFormSubmit = useCallback(
@@ -94,61 +61,40 @@ function EmailArea() {
      * 만약 지금 사용자가 보고 있는 대화라면, 사용자가 보낸 대화는 response에서 처리되므로 early return합니다.
      */
     const handleEmail = useCallback((email: Email): void => {
-        if (document.hasFocus() === true && email.fromUser === false) return;
-        if (document.hasFocus() === true && email.fromUser === true) setBottomScroll(true);
-
-        dispatch(
-            updateConversation({
-                conversationId: email.conversationId,
-                updatedAt: email.createdAt,
-            }),
-        );
-
-        dispatch(
-            addGlobalEmailList({
-                conversationId: email.conversationId,
-                email,
-            }),
-        );
+        // TODO conversation updateAt
     }, []);
 
-    const _initEmailList = useCallback(
-        (propEmailList: Email[]): void => {
-            const newEmailList = [...propEmailList];
-            newEmailList.sort((a, b) => a.createdAt - b.createdAt);
-            const lastEmail = newEmailList[newEmailList.length - 1];
+    const _initEmailList = useCallback((propEmailList: Email[]): void => {
+        const newEmailList = [...propEmailList];
+        newEmailList.sort((a, b) => a.createdAt - b.createdAt);
+        const lastEmail = newEmailList[newEmailList.length - 1];
 
-            if (!lastEmail) return;
+        if (!lastEmail) return;
 
-            dispatch(
-                setGlobalEmailList({
-                    conversationId,
-                    emailList: newEmailList,
-                }),
-            );
-        },
-        [conversationId],
-    );
+        setEmailList(newEmailList);
+    }, []);
 
     // * query
     // 컴포넌트 시작 시 이메일 리스트를 가져오는 query
-    useQuery(['emailAreaInfo', conversationId], () => getEmailListFromServer(conversationId), {
-        enabled:
-            conversationId !== null &&
-            userName !== null &&
-            userAvatarUrl !== null &&
-            hasUpdate === true,
-        onSuccess: (propEmailList: Email[]) => {
-            if (!propEmailList) return;
-            _initEmailList(propEmailList);
+    useQuery(
+        ['emailAreaInfo', selectedConversation],
+        () =>
+            selectedConversation?.conversationId &&
+            getEmailListFromServer(selectedConversation.conversationId),
+        {
+            enabled: selectedConversation.conversationId !== null,
+            onSuccess: (propEmailList: Email[]) => {
+                if (!propEmailList) return;
+                _initEmailList(propEmailList);
+            },
+            onError: (error: any) => {
+                let errorMessage =
+                    error?.response?.data?.message ||
+                    '대화 정보를 가져오는 과정에서 에러가 발생했습니다.';
+                alert(errorMessage);
+            },
         },
-        onError: (error: any) => {
-            let errorMessage =
-                error?.response?.data?.message ||
-                '대화 정보를 가져오는 과정에서 에러가 발생했습니다.';
-            alert(errorMessage);
-        },
-    });
+    );
 
     // * effect
     // 소켓을 열어주는 effect
@@ -159,22 +105,12 @@ function EmailArea() {
         };
     }, [handleEmail]);
 
-    // 대화를 입력하거나 상대방이 입력하면 이메일 리스트의 최하단으로 화면 이동
-    useEffect(() => {
-        if (bottomScroll === true) {
-            setTimeout(() => {
-                emailListRef.current.scrollTop = emailListRef.current.scrollHeight;
-            }, 100);
-            setBottomScroll(false);
-        }
-    }, [bottomScroll]);
-
     return (
         <Styled.EmailArea>
-            {conversationId && userAvatarUrl && userName && globalEmailList.get(conversationId) && (
+            {selectedConversation?.conversationId !== null && (
                 <Fragment>
-                    <Styled.EmailList ref={emailListRef}>
-                        {globalEmailList.get(conversationId).map((email) => (
+                    <Styled.EmailList>
+                        {emailList.map((email) => (
                             <Styled.ConversationBox
                                 key={`email-box-${email.id}`}
                                 fromUser={email.fromUser}
@@ -182,13 +118,16 @@ function EmailArea() {
                             >
                                 {email.fromUser === true && (
                                     <Styled.ProfileImgBox>
-                                        <img src={userAvatarUrl} alt="none" />
+                                        <img
+                                            src={selectedConversation?.userAvatarUrl || ''}
+                                            alt="none"
+                                        />
                                     </Styled.ProfileImgBox>
                                 )}
                                 <Styled.TalkBox fromUser={email.fromUser}>
                                     {email.fromUser === true && (
                                         <div className="userName">
-                                            <span>{userName}</span>
+                                            <span>{selectedConversation?.userName || ''}</span>
                                         </div>
                                     )}
                                     <div className="text">

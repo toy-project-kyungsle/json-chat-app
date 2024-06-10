@@ -37,7 +37,6 @@ export interface SelectedConversationType {
     conversationId: string | null;
     userName: string | null;
     userAvatarUrl: string | null;
-    hasUpdate: boolean;
 }
 
 export interface SelectedConvesationActionType extends SelectedConversationType {
