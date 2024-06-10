@@ -77,6 +77,7 @@ function EmailArea() {
             conversationId: conversationId,
             text: textAreaValue,
         });
+        socket.emit('message', { conversationId, text: textAreaValue });
         setTextAreaValue('');
         setBottomScroll(true);
     }, [conversationId, handlePutBodyData, textAreaValue]);
@@ -164,9 +165,9 @@ function EmailArea() {
     // * effect
     // 소켓을 열어주는 effect
     useEffect(() => {
-        socket.on(handleEmail);
+        socket.on('message', handleEmail);
         return () => {
-            socket.off(handleEmail);
+            socket.off('message', handleEmail);
         };
     }, [handleEmail]);
 
