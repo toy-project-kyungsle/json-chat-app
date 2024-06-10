@@ -6,7 +6,7 @@ import { v4 as uuid } from 'uuid';
 import io from 'socket.io-client';
 // etc
 import { getEmailListFromServer, putConversationById } from 'api/conversationApi';
-import { addGlobalEmailList, replaceDummyEmailList } from 'reducers/globalEmailList';
+import { addGlobalEmailList } from 'reducers/globalEmailList';
 import { setGlobalEmailList } from 'reducers/globalEmailList';
 import { updateConversation } from 'reducers/globalConversationList';
 import { RootState } from 'reducers'; // type
@@ -38,22 +38,10 @@ function EmailArea() {
                     updatedAt: responseEmail.createdAt,
                 }),
             );
-
-            dispatch(
-                replaceDummyEmailList({
-                    conversationId: responseEmail.conversationId,
-                    email: responseEmail,
-                }),
-            );
         },
         // error type에 대해 받은 것이 없어 임시 처리
         onError: (error: { response: { data: { message: string } } }) => {
             alert(error?.response?.data || '대화를 수정하는 과정에서 에러가 발생했습니다.');
-            dispatch(
-                replaceDummyEmailList({
-                    conversationId: conversationId,
-                }),
-            );
         },
     });
 

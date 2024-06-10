@@ -4,6 +4,7 @@ const { parse } = require('url');
 const next = require('next');
 const socketIO = require('socket.io');
 const { v4 } = require('uuid');
+const LoremIpsum = require('lorem-ipsum').LoremIpsum;
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== 'production';
@@ -24,27 +25,41 @@ nextApp.prepare().then(() => {
             console.log('Received message from client:', msg);
             // 클라이언트에게 응답을 보냅니다.
             const newId = v4();
-            const nowTime = Date.now();
-
-            fetch('http://localhost:3001/emails', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    id: newId,
-                    conversationId: msg.conversationId,
-                    text: 'msg.text',
-                    createdAt: nowTime,
-                    fromUser: true,
-                }),
-            }).then(() => {
-                socket.emit('message', {
-                    id: newId,
-                    conversationId: msg.conversationId,
-                    text: 'msg.text',
-                    createdAt: nowTime,
-                    fromUser: true,
-                });
+            const lorem = new LoremIpsum({
+                sentencesPerParagraph: {
+                    max: 8,
+                    min: 4,
+                },
+                wordsPerSentence: {
+                    max: 16,
+                    min: 4,
+                },
             });
+            const resSentence = lorem.generateSentences(3);
+            const responseBreakTime = Math.floor(Math.random() * 1000) + 1000;
+
+            setTimeout(() => {
+                const nowTime = Date.now();
+                fetch('http://localhost:3001/emails', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        id: newId,
+                        conversationId: msg.conversationId,
+                        text: resSentence,
+                        createdAt: nowTime,
+                        fromUser: true,
+                    }),
+                }).then(() => {
+                    socket.emit('message', {
+                        id: newId,
+                        conversationId: msg.conversationId,
+                        text: resSentence,
+                        createdAt: nowTime,
+                        fromUser: true,
+                    });
+                });
+            }, responseBreakTime);
         });
 
         socket.on('disconnect', () => {

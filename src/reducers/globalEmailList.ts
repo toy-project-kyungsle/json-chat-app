@@ -21,11 +21,6 @@ export const addGlobalEmailList = (params: GlobalEmailListActionType) => ({
     type: ADD,
     ...params,
 });
-// 더미데이터를 실제 데이터로 변경하는 액션을 생성합니다.
-export const replaceDummyEmailList = (params: GlobalEmailListActionType) => ({
-    type: REPLACE_DUMMY,
-    ...params,
-});
 
 // * reducer
 export const globalEmailListReducer = (
