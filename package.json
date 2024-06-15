@@ -23,7 +23,11 @@
     },
     "devDependencies": {
         "@babel/core": "^7.24.0",
-        "json-server": "^1.0.0-beta.1"
+        "axios": "^1.7.2",
+        "json-server": "^1.0.0-beta.1",
+        "lorem-ipsum": "^2.0.8",
+        "typescript": "^5.4.5",
+        "uuid": "^10.0.0"
     },
     "private": true,
     "packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
