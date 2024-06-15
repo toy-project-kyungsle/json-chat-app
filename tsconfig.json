@@ -1,6 +1,5 @@
 {
     "compilerOptions": {
-        "lib": ["dom", "dom.iterable", "esnext"],
         "allowJs": true,
         "skipLibCheck": true,
         "strict": true,
@@ -10,17 +9,10 @@
         "moduleResolution": "bundler",
         "resolveJsonModule": true,
         "isolatedModules": true,
-        "jsx": "preserve",
         "incremental": true,
-        "plugins": [
-            {
-                "name": "next"
-            }
-        ],
         "paths": {
             "*": ["./src/*"]
         }
     },
-    "exclude": ["node_modules"],
     "extends": "@tsconfig/react-native/tsconfig.json"
 }

@@ -1,5 +1,4 @@
 import { conversationApiInstance } from 'api/apiInstance';
-// import { Email, Conversation } from 'utils/type';
 import { v4 as uuid } from 'uuid';
 
 /**

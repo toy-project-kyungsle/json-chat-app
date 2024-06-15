@@ -22,6 +22,8 @@ const styles = StyleSheet.create({
 });
 
 export default function App() {
+    // const [conversationList, setConversationList] = useState<Conversation[]>([]);
+
     useEffect(() => {
         getConversationListFromServer().then((conversations) => {
             console.log(conversations);
