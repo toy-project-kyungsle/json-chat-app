@@ -17,7 +17,7 @@ export const getConversationListFromServer = async () => {
  * @param {string} conversationId - 대화의 ID입니다.
  * @return {Promise<Email[]>} 대화 데이터를 반환하는 Promise입니다.
  */
-export const getEmailListFromServer = async (conversationId: string) => {
+export const getChatListFromServer = async (conversationId: string) => {
     const response = await conversationApiInstance.get(`/emails?conversationId=${conversationId}`);
     return response.data;
 };

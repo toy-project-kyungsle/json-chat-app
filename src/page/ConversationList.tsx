@@ -14,6 +14,7 @@ import { Fontisto } from '@expo/vector-icons';
 import { theme } from 'utils/colors';
 import { getConversationListFromServer } from 'api/conversationApi';
 import { Conversation } from 'utils/type';
+import { useNavigation } from '@react-navigation/native';
 
 const styles = StyleSheet.create({
     container: {
@@ -32,6 +33,7 @@ const styles = StyleSheet.create({
 });
 
 export default function ConversationList() {
+    const navigation = useNavigation();
     const [conversationList, setConversationList] = useState<Conversation[]>([]);
 
     useEffect(() => {
@@ -54,6 +56,9 @@ export default function ConversationList() {
                         marginBottom: 10,
                         flexDirection: 'row',
                         alignItems: 'center',
+                    }}
+                    onPress={() => {
+                        navigation.navigate('ChatList', { conversationId: conversation.id });
                     }}
                 >
                     <View style={styles.titleBox}>

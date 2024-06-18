@@ -1,17 +1,10 @@
 // * email type
-export interface Email {
+export interface Chat {
     id: string;
     conversationId: string;
     text: string;
     createdAt: number;
     fromUser: boolean;
-}
-
-export interface GlobalEmailListActionType {
-    type?: string;
-    conversationId: string;
-    emailList?: Email[];
-    email?: Email;
 }
 
 // * conversation type
