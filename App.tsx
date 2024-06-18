@@ -12,6 +12,7 @@ import {
 import { Fontisto } from '@expo/vector-icons';
 import { theme } from './colors';
 import { getConversationListFromServer } from 'api/conversationApi';
+import { Conversation } from 'utils/type';
 
 const styles = StyleSheet.create({
     container: {
@@ -22,7 +23,7 @@ const styles = StyleSheet.create({
 });
 
 export default function App() {
-    // const [conversationList, setConversationList] = useState<Conversation[]>([]);
+    const [conversationList, setConversationList] = useState<Conversation[]>([]);
 
     useEffect(() => {
         getConversationListFromServer().then((conversations) => {
