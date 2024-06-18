@@ -1,6 +1,6 @@
 import { getChatListFromServer, putConversationById } from 'api/conversationApi';
 import { useEffect, useState } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, Image, StyleSheet, Text, View } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { theme } from 'utils/colors';
 import { Chat } from 'utils/type';
@@ -17,23 +17,32 @@ const style = StyleSheet.create({
     chatView: {
         paddingHorizontal: 20,
     },
+
     chatContainer: {
         width: '100%',
         flexDirection: 'row',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-between',
         marginTop: 20,
+        gap: 10,
     },
     chatBox: {
-        width: '75%',
+        maxWidth: 250,
         padding: 20,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
         backgroundColor: '#f0f0f0',
         borderRadius: 10,
     },
     text: {
         color: theme.grey,
+    },
+    userName: {
+        fontWeight: 'bold',
+    },
+    image: {
+        width: 60,
+        height: 60,
+        borderRadius: 10,
     },
     enterBox: {
         position: 'absolute',
@@ -67,8 +76,21 @@ export default function ChatList({ route }: any) {
                                 email.userId === DUMMUY_MY_ID ? 'flex-end' : 'flex-start',
                         }}
                     >
-                        <View style={style.chatBox}>
-                            <Text style={style.text}>{email.text}</Text>
+                        {email.userId !== DUMMUY_MY_ID && (
+                            <View>
+                                <Image
+                                    style={style.image}
+                                    source={{ uri: email.userAvatarUrl }}
+                                ></Image>
+                            </View>
+                        )}
+                        <View>
+                            {email.userId !== DUMMUY_MY_ID && (
+                                <Text style={style.userName}>{email.userName}</Text>
+                            )}
+                            <View style={style.chatBox}>
+                                <Text style={style.text}>{email.text}</Text>
+                            </View>
                         </View>
                     </View>
                 ))}
