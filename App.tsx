@@ -8,6 +8,7 @@ import {
     TextInput,
     Alert,
     ScrollView,
+    Image,
 } from 'react-native';
 import { Fontisto } from '@expo/vector-icons';
 import { theme } from './colors';
@@ -20,6 +21,14 @@ const styles = StyleSheet.create({
         backgroundColor: theme.bg,
         paddingHorizontal: 20,
     },
+    image: {
+        width: 30,
+        height: 30,
+        borderRadius: 5,
+    },
+    titleBox: {
+        flexDirection: 'row',
+    },
 });
 
 export default function App() {
@@ -28,8 +37,38 @@ export default function App() {
     useEffect(() => {
         getConversationListFromServer().then((conversations) => {
             console.log(conversations);
+            if (conversations) setConversationList(conversations);
         });
     }, []);
 
-    return <View style={styles.container}></View>;
+    return (
+        <ScrollView style={styles.container}>
+            {conversationList.map((conversation) => (
+                <TouchableOpacity
+                    key={conversation.id}
+                    style={{
+                        backgroundColor: theme.grey,
+                        paddingVertical: 10,
+                        paddingHorizontal: 20,
+                        borderRadius: 5,
+                        marginBottom: 10,
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                    }}
+                >
+                    <View style={styles.titleBox}>
+                        <View>
+                            <Image
+                                style={styles.image}
+                                source={{ uri: conversation.userAvatarUrl }}
+                            ></Image>
+                        </View>
+                        <View>
+                            <Text>{conversation.title}</Text>
+                        </View>
+                    </View>
+                </TouchableOpacity>
+            ))}
+        </ScrollView>
+    );
 }
