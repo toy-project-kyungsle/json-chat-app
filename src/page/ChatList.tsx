@@ -13,9 +13,10 @@ const style = StyleSheet.create({
         flex: 1,
         backgroundColor: theme.bg,
         height: '100%',
+    },
+    chatView: {
         paddingHorizontal: 20,
     },
-    chatView: {},
     chatContainer: {
         width: '100%',
         flexDirection: 'row',
@@ -42,7 +43,6 @@ const style = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        // backgroundColor: theme.toDoBg,
     },
 });
 
@@ -63,7 +63,8 @@ export default function ChatList({ route }: any) {
                         key={email.id}
                         style={{
                             ...style.chatContainer,
-                            justifyContent: email.fromUser ? 'flex-start' : 'flex-end',
+                            justifyContent:
+                                email.userId === DUMMUY_MY_ID ? 'flex-end' : 'flex-start',
                         }}
                     >
                         <View style={style.chatBox}>

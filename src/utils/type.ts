@@ -4,12 +4,15 @@ export interface Chat {
     conversationId: string;
     text: string;
     createdAt: number;
-    fromUser: boolean;
+    userId: string;
+    userName: string;
+    userAvatarUrl: string;
 }
 
 // * conversation type
 export interface Conversation {
     id: string;
+    userId: string;
     userName: string;
     userAvatarUrl: string;
     title: string;

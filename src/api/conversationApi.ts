@@ -35,7 +35,9 @@ export const putConversationById = async (props: { conversationId: string; text:
         conversationId: props.conversationId,
         text: props.text,
         createdAt: Date.now(),
-        fromUser: false,
+        userId: 'dummyMyId',
+        userName: 'dummyMyName',
+        userAvatarUrl: 'https://picsum.photos/id/22/100',
     });
     return response.data;
 };
