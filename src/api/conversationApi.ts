@@ -1,5 +1,5 @@
 import { conversationApiInstance } from 'api/apiInstance';
-import { v4 as uuid } from 'uuid';
+import uuid from 'react-native-uuid';
 
 /**
  * 서버에서 대화 목록을 가져옵니다.
@@ -31,7 +31,7 @@ export const getChatListFromServer = async (conversationId: string) => {
  */
 export const putConversationById = async (props: { conversationId: string; text: string }) => {
     const response = await conversationApiInstance.post(`/emails`, {
-        id: uuid(),
+        id: uuid.v4(),
         conversationId: props.conversationId,
         text: props.text,
         createdAt: Date.now(),

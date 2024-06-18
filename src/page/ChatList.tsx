@@ -1,7 +1,7 @@
-import { getChatListFromServer } from 'api/conversationApi';
+import { getChatListFromServer, putConversationById } from 'api/conversationApi';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import { Button, StyleSheet, Text, View } from 'react-native';
+import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { theme } from 'utils/colors';
 import { Chat } from 'utils/type';
 
@@ -18,6 +18,7 @@ const style = StyleSheet.create({
 export default function ChatList({ route }: any) {
     const { conversationId } = route.params;
     const [emails, setEmails] = useState<Chat[]>([]);
+    const [enteredText, setEnteredText] = useState<string>('');
 
     useEffect(() => {
         getChatListFromServer(conversationId).then((emails) => {
@@ -33,6 +34,20 @@ export default function ChatList({ route }: any) {
                     <Text style={style.text}>{email.text}</Text>
                 </View>
             ))}
+            <View>
+                <TextInput
+                    placeholder="Enter text here"
+                    value={enteredText}
+                    onChangeText={(text) => setEnteredText(text)}
+                ></TextInput>
+                <Button
+                    title="Send"
+                    onPress={() => {
+                        putConversationById({ conversationId, text: enteredText });
+                        setEnteredText('');
+                    }}
+                />
+            </View>
         </ScrollView>
     );
 }
