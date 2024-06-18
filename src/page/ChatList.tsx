@@ -5,12 +5,31 @@ import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { theme } from 'utils/colors';
 import { Chat } from 'utils/type';
 
+const DUMMUY_MY_ID = 'dummyMyId';
+
 const style = StyleSheet.create({
     container: {
         position: 'relative',
         flex: 1,
         backgroundColor: theme.bg,
         height: '100%',
+        paddingHorizontal: 20,
+    },
+    chatView: {},
+    chatContainer: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        marginTop: 20,
+    },
+    chatBox: {
+        width: '75%',
+        padding: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        backgroundColor: '#f0f0f0',
+        borderRadius: 10,
     },
     text: {
         color: theme.grey,
@@ -23,7 +42,7 @@ const style = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: theme.toDoBg,
+        // backgroundColor: theme.toDoBg,
     },
 });
 
@@ -38,10 +57,18 @@ export default function ChatList({ route }: any) {
 
     return (
         <View style={style.container}>
-            <ScrollView>
+            <ScrollView style={style.chatView}>
                 {emails.map((email) => (
-                    <View key={email.id}>
-                        <Text style={style.text}>{email.text}</Text>
+                    <View
+                        key={email.id}
+                        style={{
+                            ...style.chatContainer,
+                            justifyContent: email.fromUser ? 'flex-start' : 'flex-end',
+                        }}
+                    >
+                        <View style={style.chatBox}>
+                            <Text style={style.text}>{email.text}</Text>
+                        </View>
                     </View>
                 ))}
             </ScrollView>
