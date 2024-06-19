@@ -13,14 +13,14 @@ const style = StyleSheet.create({
         paddingHorizontal: 20,
         backgroundColor: 'yellow',
     },
-    chatContainer: {
+    chatCard: {
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginTop: 20,
         gap: 10,
     },
-    chatBox: {
+    chatContent: {
         maxWidth: 250,
         padding: 20,
         flexDirection: 'column',
@@ -28,18 +28,18 @@ const style = StyleSheet.create({
         backgroundColor: '#f0f0f0',
         borderRadius: 10,
     },
-    text: {
+    chatText: {
         color: theme.grey,
     },
-    userName: {
+    counterUserName: {
         fontWeight: 'bold',
     },
-    image: {
+    chatImage: {
         width: 60,
         height: 60,
         borderRadius: 10,
     },
-    enterBox: {
+    InputView: {
         width: '100%',
         height: 70,
         paddingHorizontal: 20,

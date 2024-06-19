@@ -7,12 +7,7 @@ const style = StyleSheet.create({
         backgroundColor: theme.bg,
         paddingHorizontal: 10,
     },
-    image: {
-        width: 60,
-        height: 60,
-        borderRadius: 5,
-    },
-    conversationBox: {
+    conversationCard: {
         paddingVertical: 10,
         paddingHorizontal: 20,
         borderRadius: 5,
@@ -21,9 +16,14 @@ const style = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
-    titleBox: {
+    leftBox: {
         flexDirection: 'row',
         gap: 15,
+    },
+    userImage: {
+        width: 60,
+        height: 60,
+        borderRadius: 5,
     },
     userName: {
         fontWeight: 'bold',

@@ -52,7 +52,7 @@ export default function ChatList({ route }: any) {
                     <View
                         key={email.id}
                         style={{
-                            ...style.chatContainer,
+                            ...style.chatCard,
                             justifyContent:
                                 email.userId === DUMMUY_MY_ID ? 'flex-end' : 'flex-start',
                         }}
@@ -60,23 +60,23 @@ export default function ChatList({ route }: any) {
                         {email.userId !== DUMMUY_MY_ID && (
                             <View>
                                 <Image
-                                    style={style.image}
+                                    style={style.chatImage}
                                     source={{ uri: email.userAvatarUrl }}
                                 ></Image>
                             </View>
                         )}
                         <View>
                             {email.userId !== DUMMUY_MY_ID && (
-                                <Text style={style.userName}>{email.userName}</Text>
+                                <Text style={style.counterUserName}>{email.userName}</Text>
                             )}
-                            <View style={style.chatBox}>
-                                <Text style={style.text}>{email.text}</Text>
+                            <View style={style.chatContent}>
+                                <Text style={style.chatText}>{email.text}</Text>
                             </View>
                         </View>
                     </View>
                 ))}
             </ScrollView>
-            <View style={style.enterBox}>
+            <View style={style.InputView}>
                 <TextInput
                     placeholder="Enter text here"
                     value={enteredText}

@@ -21,7 +21,7 @@ export default function ConversationList() {
             {conversationList.map((conversation) => (
                 <TouchableOpacity
                     key={conversation.id}
-                    style={style.conversationBox}
+                    style={style.conversationCard}
                     onPress={() => {
                         navigation.navigate('ChatList', {
                             conversationId: conversation.id,
@@ -31,10 +31,10 @@ export default function ConversationList() {
                         });
                     }}
                 >
-                    <View style={style.titleBox}>
+                    <View style={style.leftBox}>
                         <View>
                             <Image
-                                style={style.image}
+                                style={style.userImage}
                                 source={{ uri: conversation.userAvatarUrl }}
                             ></Image>
                         </View>
