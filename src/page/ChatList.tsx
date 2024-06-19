@@ -1,59 +1,57 @@
-import { getChatListFromServer, putConversationById } from 'api/conversationApi';
+import { getChatListFromServer, putChatByConversationId } from 'api/conversationApi';
 import { useCallback, useEffect, useState } from 'react';
 import { Button, Image, KeyboardAvoidingView, Platform, Text, View } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
-import { Chat } from 'utils/type';
-import { LoremIpsum } from 'lorem-ipsum';
+import { ChatType } from 'utils/type';
 import style from 'style/ChatList';
 import io from 'socket.io-client';
+import uuid from 'react-native-uuid';
 
 const DUMMUY_MY_ID = 'dummyMyId';
-const lorem = new LoremIpsum({
-    sentencesPerParagraph: {
-        max: 8,
-        min: 4,
-    },
-    wordsPerSentence: {
-        max: 16,
-        min: 4,
-    },
-});
 const newSocket = io('http://192.168.0.7:3000');
 
-export default function ChatList({ route }: any) {
+export default function ChatList({
+    route,
+}: {
+    route: {
+        params: { conversationId: string; userId: string; userName: string; userAvatarUrl: string };
+    };
+}) {
     const { conversationId, userId, userName, userAvatarUrl } = route.params;
-    const [emails, setEmails] = useState<Chat[]>([]);
+    const [emails, setEmails] = useState<ChatType[]>([]);
     const [enteredText, setEnteredText] = useState<string>('');
 
-    const handleResponse = useCallback(async () => {
-        const resSentence = lorem.generateSentences(3);
-        return await putConversationById({
-            conversationId,
-            text: resSentence,
-            userId,
-            userName,
-            userAvatarUrl,
-        });
-    }, [conversationId, userId, userName, userAvatarUrl]);
-
     const handlePostChat = useCallback(async () => {
-        return await putConversationById({ conversationId, text: enteredText });
+        const newId = uuid.v4() as string;
+        const newCreatedAt = Date.now();
+        const newProp = {
+            id: newId,
+            conversationId,
+            text: enteredText,
+            createdAt: newCreatedAt,
+        };
+        newSocket.emit('chat', { userId, userName, userAvatarUrl, conversationId });
+        return await putChatByConversationId(newProp);
     }, [conversationId, enteredText]);
 
     const handlePressChatBtn = useCallback(async () => {
         if (enteredText === '') return;
         const postedChat = await handlePostChat();
-        const responseChat = await handleResponse();
         setEnteredText('');
-        setEmails((emails) => [...emails, postedChat, responseChat]);
-    }, [conversationId, enteredText, handleResponse]);
+        setEmails((emails) => [...emails, postedChat]);
+    }, [conversationId, enteredText]);
 
     useEffect(() => {
         getChatListFromServer(conversationId).then((emails) => setEmails(emails));
     }, [conversationId]);
 
     useEffect(() => {
+        newSocket.connect();
+        newSocket.on('chat', (data) => {
+            setEmails((emails) => [...emails, data]);
+        });
         return () => {
+            newSocket.off('chat');
             newSocket.disconnect();
         };
     }, []);
