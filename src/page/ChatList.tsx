@@ -1,7 +1,16 @@
 import { getChatListFromServer, putConversationById } from 'api/conversationApi';
 import { useEffect, useState } from 'react';
-import { Button, Image, StyleSheet, Text, View } from 'react-native';
+import {
+    Button,
+    Image,
+    KeyboardAvoidingView,
+    Platform,
+    StyleSheet,
+    Text,
+    View,
+} from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
+import { Keyboard } from 'react-native';
 import { theme } from 'utils/colors';
 import { Chat } from 'utils/type';
 
@@ -17,7 +26,6 @@ const style = StyleSheet.create({
     chatView: {
         paddingHorizontal: 20,
     },
-
     chatContainer: {
         width: '100%',
         flexDirection: 'row',
@@ -52,6 +60,7 @@ const style = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        backgroundColor: 'white',
     },
 });
 
@@ -59,13 +68,32 @@ export default function ChatList({ route }: any) {
     const { conversationId } = route.params;
     const [emails, setEmails] = useState<Chat[]>([]);
     const [enteredText, setEnteredText] = useState<string>('');
+    const [keyboardHeight, setKeyboardHeight] = useState(0);
 
     useEffect(() => {
         getChatListFromServer(conversationId).then((emails) => setEmails(emails));
     }, [conversationId]);
 
+    useEffect(() => {
+        const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (event) => {
+            setKeyboardHeight(event.endCoordinates.height);
+        });
+        const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+            setKeyboardHeight(0);
+        });
+
+        return () => {
+            keyboardDidShowListener.remove();
+            keyboardDidHideListener.remove();
+        };
+    }, []);
+
     return (
-        <View style={style.container}>
+        <KeyboardAvoidingView
+            style={style.container}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={keyboardHeight}
+        >
             <ScrollView style={style.chatView}>
                 {emails.map((email) => (
                     <View
@@ -95,7 +123,7 @@ export default function ChatList({ route }: any) {
                     </View>
                 ))}
             </ScrollView>
-            <View style={style.enterBox}>
+            <View style={[style.enterBox, { bottom: keyboardHeight }]}>
                 <TextInput
                     placeholder="Enter text here"
                     value={enteredText}
@@ -111,6 +139,6 @@ export default function ChatList({ route }: any) {
                     }}
                 />
             </View>
-        </View>
+        </KeyboardAvoidingView>
     );
 }

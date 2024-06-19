@@ -52,10 +52,9 @@ export default function ConversationList() {
     const [conversationList, setConversationList] = useState<Conversation[]>([]);
 
     useEffect(() => {
-        getConversationListFromServer().then((conversations) => {
-            console.log(conversations);
-            if (conversations) setConversationList(conversations);
-        });
+        getConversationListFromServer().then((conversations) =>
+            setConversationList(conversations || []),
+        );
     }, []);
 
     return (
