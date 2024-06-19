@@ -1,51 +1,10 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useState } from 'react';
-import {
-    StyleSheet,
-    Text,
-    View,
-    TouchableOpacity,
-    TextInput,
-    Alert,
-    ScrollView,
-    Image,
-} from 'react-native';
-import { Fontisto } from '@expo/vector-icons';
-import { theme } from 'utils/colors';
+import { Text, View, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { getConversationListFromServer } from 'api/conversationApi';
 import { Conversation } from 'utils/type';
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: theme.bg,
-        paddingHorizontal: 10,
-    },
-    image: {
-        width: 60,
-        height: 60,
-        borderRadius: 5,
-    },
-    conversationBox: {
-        // backgroundColor: theme.grey,
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 5,
-        marginBottom: 10,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    titleBox: {
-        flexDirection: 'row',
-        gap: 15,
-    },
-    userName: {
-        fontWeight: 'bold',
-    },
-});
+import style from 'style/ConversationList';
 
 export default function ConversationList() {
     const navigation = useNavigation();
@@ -58,11 +17,11 @@ export default function ConversationList() {
     }, []);
 
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView style={style.container}>
             {conversationList.map((conversation) => (
                 <TouchableOpacity
                     key={conversation.id}
-                    style={styles.conversationBox}
+                    style={style.conversationBox}
                     onPress={() => {
                         navigation.navigate('ChatList', {
                             conversationId: conversation.id,
@@ -72,15 +31,15 @@ export default function ConversationList() {
                         });
                     }}
                 >
-                    <View style={styles.titleBox}>
+                    <View style={style.titleBox}>
                         <View>
                             <Image
-                                style={styles.image}
+                                style={style.image}
                                 source={{ uri: conversation.userAvatarUrl }}
                             ></Image>
                         </View>
                         <View>
-                            <Text style={styles.userName}>{conversation.userName}</Text>
+                            <Text style={style.userName}>{conversation.userName}</Text>
                             <Text>{conversation.title}</Text>
                         </View>
                     </View>

@@ -1,69 +1,12 @@
 import { getChatListFromServer, putConversationById } from 'api/conversationApi';
 import { useCallback, useEffect, useState } from 'react';
-import {
-    Button,
-    Image,
-    KeyboardAvoidingView,
-    Platform,
-    StyleSheet,
-    Text,
-    View,
-} from 'react-native';
+import { Button, Image, KeyboardAvoidingView, Platform, Text, View } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
-import { theme } from 'utils/colors';
 import { Chat } from 'utils/type';
 import { LoremIpsum } from 'lorem-ipsum';
+import style from 'style/ChatList';
 
 const DUMMUY_MY_ID = 'dummyMyId';
-
-const style = StyleSheet.create({
-    container: {
-        position: 'relative',
-        backgroundColor: theme.bg,
-        height: '100%',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-    },
-    chatView: {
-        paddingHorizontal: 20,
-        backgroundColor: 'yellow',
-    },
-    chatContainer: {
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginTop: 20,
-        gap: 10,
-    },
-    chatBox: {
-        maxWidth: 250,
-        padding: 20,
-        flexDirection: 'column',
-        alignItems: 'flex-start',
-        backgroundColor: '#f0f0f0',
-        borderRadius: 10,
-    },
-    text: {
-        color: theme.grey,
-    },
-    userName: {
-        fontWeight: 'bold',
-    },
-    image: {
-        width: 60,
-        height: 60,
-        borderRadius: 10,
-    },
-    enterBox: {
-        width: '100%',
-        height: 70,
-        paddingHorizontal: 20,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        backgroundColor: 'white',
-    },
-});
 
 export default function ChatList({ route }: any) {
     const { conversationId, userId, userName, userAvatarUrl } = route.params;
