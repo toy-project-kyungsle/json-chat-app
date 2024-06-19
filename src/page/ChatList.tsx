@@ -7,35 +7,44 @@ import { LoremIpsum } from 'lorem-ipsum';
 import style from 'style/ChatList';
 
 const DUMMUY_MY_ID = 'dummyMyId';
+const lorem = new LoremIpsum({
+    sentencesPerParagraph: {
+        max: 8,
+        min: 4,
+    },
+    wordsPerSentence: {
+        max: 16,
+        min: 4,
+    },
+});
 
 export default function ChatList({ route }: any) {
     const { conversationId, userId, userName, userAvatarUrl } = route.params;
     const [emails, setEmails] = useState<Chat[]>([]);
     const [enteredText, setEnteredText] = useState<string>('');
 
-    const handleResponse = useCallback(() => {
-        setTimeout(() => {
-            const lorem = new LoremIpsum({
-                sentencesPerParagraph: {
-                    max: 8,
-                    min: 4,
-                },
-                wordsPerSentence: {
-                    max: 16,
-                    min: 4,
-                },
-            });
-            const resSentence = lorem.generateSentences(3);
-            putConversationById({
-                conversationId,
-                text: resSentence,
-                userId,
-                userName,
-                userAvatarUrl,
-            });
-            getChatListFromServer(conversationId).then((emails) => setEmails(emails));
-        }, Math.floor(Math.random() * 3000));
+    const handleResponse = useCallback(async () => {
+        const resSentence = lorem.generateSentences(3);
+        return await putConversationById({
+            conversationId,
+            text: resSentence,
+            userId,
+            userName,
+            userAvatarUrl,
+        });
     }, [conversationId, userId, userName, userAvatarUrl]);
+
+    const handlePostChat = useCallback(async () => {
+        return await putConversationById({ conversationId, text: enteredText });
+    }, [conversationId, enteredText]);
+
+    const handlePressChatBtn = useCallback(async () => {
+        if (enteredText === '') return;
+        const postedChat = await handlePostChat();
+        const responseChat = await handleResponse();
+        setEnteredText('');
+        setEmails((emails) => [...emails, postedChat, responseChat]);
+    }, [conversationId, enteredText, handleResponse]);
 
     useEffect(() => {
         getChatListFromServer(conversationId).then((emails) => setEmails(emails));
@@ -82,16 +91,7 @@ export default function ChatList({ route }: any) {
                     value={enteredText}
                     onChangeText={(text) => setEnteredText(text)}
                 ></TextInput>
-                <Button
-                    title="Send"
-                    onPress={() => {
-                        if (enteredText === '') return;
-                        putConversationById({ conversationId, text: enteredText });
-                        handleResponse();
-                        setEnteredText('');
-                        getChatListFromServer(conversationId).then((emails) => setEmails(emails));
-                    }}
-                />
+                <Button title="Send" onPress={handlePressChatBtn} />
             </View>
         </KeyboardAvoidingView>
     );
