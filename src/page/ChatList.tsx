@@ -10,7 +10,6 @@ import {
     View,
 } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
-import { Keyboard } from 'react-native';
 import { theme } from 'utils/colors';
 import { Chat } from 'utils/type';
 
@@ -19,12 +18,14 @@ const DUMMUY_MY_ID = 'dummyMyId';
 const style = StyleSheet.create({
     container: {
         position: 'relative',
-        flex: 1,
         backgroundColor: theme.bg,
         height: '100%',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
     },
     chatView: {
         paddingHorizontal: 20,
+        backgroundColor: 'yellow',
     },
     chatContainer: {
         width: '100%',
@@ -53,10 +54,9 @@ const style = StyleSheet.create({
         borderRadius: 10,
     },
     enterBox: {
-        position: 'absolute',
-        bottom: 0,
         width: '100%',
-        padding: 20,
+        height: 100,
+        paddingHorizontal: 20,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -68,31 +68,16 @@ export default function ChatList({ route }: any) {
     const { conversationId } = route.params;
     const [emails, setEmails] = useState<Chat[]>([]);
     const [enteredText, setEnteredText] = useState<string>('');
-    const [keyboardHeight, setKeyboardHeight] = useState(0);
 
     useEffect(() => {
         getChatListFromServer(conversationId).then((emails) => setEmails(emails));
     }, [conversationId]);
 
-    useEffect(() => {
-        const keyboardWillShowListener = Keyboard.addListener('keyboardWillShow', (event) => {
-            setKeyboardHeight(event.endCoordinates.height);
-        });
-        const keyboardWillHideListener = Keyboard.addListener('keyboardWillHide', () => {
-            setKeyboardHeight(0);
-        });
-
-        return () => {
-            keyboardWillShowListener.remove();
-            keyboardWillHideListener.remove();
-        };
-    }, []);
-
     return (
         <KeyboardAvoidingView
-            style={style.container}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            keyboardVerticalOffset={keyboardHeight}
+            style={style.container}
+            keyboardVerticalOffset={100}
         >
             <ScrollView style={style.chatView}>
                 {emails.map((email) => (
@@ -123,7 +108,7 @@ export default function ChatList({ route }: any) {
                     </View>
                 ))}
             </ScrollView>
-            <View style={[style.enterBox, { bottom: keyboardHeight }]}>
+            <View style={style.enterBox}>
                 <TextInput
                     placeholder="Enter text here"
                     value={enteredText}
