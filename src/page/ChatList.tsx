@@ -5,6 +5,7 @@ import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { Chat } from 'utils/type';
 import { LoremIpsum } from 'lorem-ipsum';
 import style from 'style/ChatList';
+import io from 'socket.io-client';
 
 const DUMMUY_MY_ID = 'dummyMyId';
 const lorem = new LoremIpsum({
@@ -17,6 +18,7 @@ const lorem = new LoremIpsum({
         min: 4,
     },
 });
+const newSocket = io('http://192.168.0.7:3000');
 
 export default function ChatList({ route }: any) {
     const { conversationId, userId, userName, userAvatarUrl } = route.params;
@@ -49,6 +51,12 @@ export default function ChatList({ route }: any) {
     useEffect(() => {
         getChatListFromServer(conversationId).then((emails) => setEmails(emails));
     }, [conversationId]);
+
+    useEffect(() => {
+        return () => {
+            newSocket.disconnect();
+        };
+    }, []);
 
     return (
         <KeyboardAvoidingView
