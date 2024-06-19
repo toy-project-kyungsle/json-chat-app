@@ -1,5 +1,5 @@
 import { getChatListFromServer, putConversationById } from 'api/conversationApi';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
     Button,
     Image,
@@ -12,6 +12,7 @@ import {
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { theme } from 'utils/colors';
 import { Chat } from 'utils/type';
+import { LoremIpsum } from 'lorem-ipsum';
 
 const DUMMUY_MY_ID = 'dummyMyId';
 
@@ -55,7 +56,7 @@ const style = StyleSheet.create({
     },
     enterBox: {
         width: '100%',
-        height: 100,
+        height: 70,
         paddingHorizontal: 20,
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -65,9 +66,33 @@ const style = StyleSheet.create({
 });
 
 export default function ChatList({ route }: any) {
-    const { conversationId } = route.params;
+    const { conversationId, userId, userName, userAvatarUrl } = route.params;
     const [emails, setEmails] = useState<Chat[]>([]);
     const [enteredText, setEnteredText] = useState<string>('');
+
+    const handleResponse = useCallback(() => {
+        setTimeout(() => {
+            const lorem = new LoremIpsum({
+                sentencesPerParagraph: {
+                    max: 8,
+                    min: 4,
+                },
+                wordsPerSentence: {
+                    max: 16,
+                    min: 4,
+                },
+            });
+            const resSentence = lorem.generateSentences(3);
+            putConversationById({
+                conversationId,
+                text: resSentence,
+                userId,
+                userName,
+                userAvatarUrl,
+            });
+            getChatListFromServer(conversationId).then((emails) => setEmails(emails));
+        }, Math.floor(Math.random() * 3000));
+    }, [conversationId, userId, userName, userAvatarUrl]);
 
     useEffect(() => {
         getChatListFromServer(conversationId).then((emails) => setEmails(emails));
@@ -77,7 +102,7 @@ export default function ChatList({ route }: any) {
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             style={style.container}
-            keyboardVerticalOffset={100}
+            keyboardVerticalOffset={90}
         >
             <ScrollView style={style.chatView}>
                 {emails.map((email) => (
@@ -119,6 +144,7 @@ export default function ChatList({ route }: any) {
                     onPress={() => {
                         if (enteredText === '') return;
                         putConversationById({ conversationId, text: enteredText });
+                        handleResponse();
                         setEnteredText('');
                         getChatListFromServer(conversationId).then((emails) => setEmails(emails));
                     }}

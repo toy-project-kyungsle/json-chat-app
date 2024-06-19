@@ -29,15 +29,21 @@ export const getChatListFromServer = async (conversationId: string) => {
  * @param {object} props.text - 대화에서 업데이트할 속성입니다.
  * @return {Promise<Email>} 업데이트된 대화 데이터입니다.
  */
-export const putConversationById = async (props: { conversationId: string; text: string }) => {
+export const putConversationById = async (props: {
+    conversationId: string;
+    text: string;
+    userId?: string;
+    userName?: string;
+    userAvatarUrl?: string;
+}) => {
     const response = await conversationApiInstance.post(`/emails`, {
         id: uuid.v4(),
         conversationId: props.conversationId,
         text: props.text,
         createdAt: Date.now(),
-        userId: 'dummyMyId',
-        userName: 'dummyMyName',
-        userAvatarUrl: 'https://picsum.photos/id/22/100',
+        userId: props.userId || 'dummyMyId',
+        userName: props.userName || 'dummyMyName',
+        userAvatarUrl: props.userAvatarUrl || 'https://picsum.photos/id/22/100',
     });
     return response.data;
 };

@@ -64,7 +64,12 @@ export default function ConversationList() {
                     key={conversation.id}
                     style={styles.conversationBox}
                     onPress={() => {
-                        navigation.navigate('ChatList', { conversationId: conversation.id });
+                        navigation.navigate('ChatList', {
+                            conversationId: conversation.id,
+                            userId: conversation.userId,
+                            userName: conversation.userName,
+                            userAvatarUrl: conversation.userAvatarUrl,
+                        });
                     }}
                 >
                     <View style={styles.titleBox}>
