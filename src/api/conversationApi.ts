@@ -1,6 +1,6 @@
-import { conversationApiInstance } from 'api/apiInstance';
+import { conversationApiInstance } from '../api/apiInstance';
 import uuid from 'react-native-uuid';
-import { ChatType, ChatTypeForPut } from 'utils/type';
+import { ChatType, ChatTypeForPut } from '../utils/type';
 
 // 서버에서 대화 목록을 가져옵니다.
 export const getConversationListFromServer = async () => {

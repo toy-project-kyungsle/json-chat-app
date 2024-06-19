@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import ChatList from 'page/ChatList';
-import ConversationList from 'page/ConversationList';
+import ChatList from './src/page/ChatList';
+import ConversationList from './src/page/ConversationList';
 
 const Stack = createStackNavigator();
 
