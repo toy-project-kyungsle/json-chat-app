@@ -1,4 +1,26 @@
 {
+    "users": [
+        {
+            "id": "minim12",
+            "name": "minim"
+        },
+        {
+            "id": "magna12",
+            "name": "magna"
+        },
+        {
+            "id": "irure12",
+            "name": "irure"
+        },
+        {
+            "id": "amet12",
+            "name": "amet"
+        },
+        {
+            "id": "velit12",
+            "name": "velit"
+        }
+    ],
     "conversations": [
         {
             "id": "sn4zmysy",
@@ -44,141 +66,6 @@
             "title": "do consequat quis",
             "createdAt": 1717629600000,
             "updatedAt": 1717629600000
-        },
-        {
-            "id": "jnpyxnrb",
-            "userId": "consequat12",
-            "userName": "consequat",
-            "userAvatarUrl": "https://picsum.photos/id/55/100",
-            "title": "tempor esse ex",
-            "createdAt": 1717629000000,
-            "updatedAt": 1717629000000
-        },
-        {
-            "id": "bidjgfd0",
-            "userId": "occaecat12",
-            "userName": "occaecat",
-            "userAvatarUrl": "https://picsum.photos/id/97/100",
-            "title": "esse excepteur laboris",
-            "createdAt": 1717628400000,
-            "updatedAt": 1717628400000
-        },
-        {
-            "id": "3imuzyn0",
-            "userId": "esse12",
-            "userName": "esse",
-            "userAvatarUrl": "https://picsum.photos/id/85/100",
-            "title": "amet minim esse",
-            "createdAt": 1717627800000,
-            "updatedAt": 1717627800000
-        },
-        {
-            "id": "bbxghthr",
-            "userId": "eiusmod12",
-            "userName": "eiusmod",
-            "userAvatarUrl": "https://picsum.photos/id/78/100",
-            "title": "exercitation reprehenderit ea",
-            "createdAt": 1717627200000,
-            "updatedAt": 1717627200000
-        },
-        {
-            "id": "q8jbfayc",
-            "userId": "fugiat12",
-            "userName": "fugiat",
-            "userAvatarUrl": "https://picsum.photos/id/70/100",
-            "title": "fugiat consectetur nostrud",
-            "createdAt": 1717626600000,
-            "updatedAt": 1717626600000
-        },
-        {
-            "id": "fboz24ra",
-            "userId": "consectetur12",
-            "userName": "consectetur",
-            "userAvatarUrl": "https://picsum.photos/id/38/100",
-            "title": "tempor aliqua id",
-            "createdAt": 1717626000000,
-            "updatedAt": 1717626000000
-        },
-        {
-            "id": "p9s6viq8",
-            "userId": "dolor12",
-            "userName": "dolor",
-            "userAvatarUrl": "https://picsum.photos/id/41/100",
-            "title": "qui cupidatat minim",
-            "createdAt": 1717625400000,
-            "updatedAt": 1717625400000
-        },
-        {
-            "id": "ivncdcen",
-            "userId": "ipsum12",
-            "userName": "ipsum",
-            "userAvatarUrl": "https://picsum.photos/id/37/100",
-            "title": "sit veniam aute",
-            "createdAt": 1717624800000,
-            "updatedAt": 1717624800000
-        },
-        {
-            "id": "2gfvcofs",
-            "userId": "Lorem12",
-            "userName": "Lorem",
-            "userAvatarUrl": "https://picsum.photos/id/43/100",
-            "title": "aliqua aliqua commodo",
-            "createdAt": 1717624200000,
-            "updatedAt": 1717624200000
-        },
-        {
-            "id": "h12ril9z",
-            "userId": "tempor12",
-            "userName": "tempor",
-            "userAvatarUrl": "https://picsum.photos/id/59/100",
-            "title": "mollit voluptate voluptate",
-            "createdAt": 1717623600000,
-            "updatedAt": 1717623600000
-        },
-        {
-            "id": "9ucp1dse",
-            "userId": "reprehenderit12",
-            "userName": "reprehenderit",
-            "userAvatarUrl": "https://picsum.photos/id/73/100",
-            "title": "fugiat excepteur ea",
-            "createdAt": 1717623000000,
-            "updatedAt": 1717623000000
-        },
-        {
-            "id": "1hj4vgre",
-            "userId": "consequat12",
-            "userName": "consequat",
-            "userAvatarUrl": "https://picsum.photos/id/57/100",
-            "title": "occaecat fugiat aliquip",
-            "createdAt": 1717622400000,
-            "updatedAt": 1717622400000
-        },
-        {
-            "id": "6vfdyfsv",
-            "userId": "quis12",
-            "userName": "quis",
-            "userAvatarUrl": "https://picsum.photos/id/10/100",
-            "title": "ad commodo ad",
-            "createdAt": 1717621800000,
-            "updatedAt": 1717621800000
-        },
-        {
-            "id": "yxl4ia5p",
-            "userId": "incididunt12",
-            "userName": "incididunt",
-            "userAvatarUrl": "https://picsum.photos/id/80/100",
-            "title": "ipsum exercitation id",
-            "createdAt": 1717621200000,
-            "updatedAt": 1717621200000
-        },
-        {
-            "id": "qgbauh6u",
-            "userId": "esse12",
-            "userName": "esse",
-            "userAvatarUrl": "https://picsum.photos/id/3/100",
-            "title": "enim sit sint",
-            "createdAt": 1717620600000,
-            "updatedAt": 1717
         }
     ],
     "emails": [
