@@ -1,5 +1,5 @@
-// * email type
-export interface Chat {
+// * chat type
+export interface ChatType {
     id: string;
     conversationId: string;
     text: string;
@@ -9,8 +9,18 @@ export interface Chat {
     userAvatarUrl: string;
 }
 
+export interface ChatTypeForPut {
+    id?: string;
+    conversationId: string;
+    text: string;
+    createdAt?: number;
+    userId?: string;
+    userName?: string;
+    userAvatarUrl?: string;
+}
+
 // * conversation type
-export interface Conversation {
+export interface ConversationType {
     id: string;
     userId: string;
     userName: string;

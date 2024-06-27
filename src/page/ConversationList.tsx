@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, TouchableOpacity, ScrollView, Image } from 'react-native';
-import { getConversationListFromServer } from 'api/conversationApi';
-import { Conversation } from 'utils/type';
+import { getConversationListFromServer } from '../api/conversationApi';
+import { ConversationType } from '../utils/type';
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
-import style from 'style/ConversationList';
+import style from '../style/ConversationList';
 
 export default function ConversationList() {
     const navigation = useNavigation();
-    const [conversationList, setConversationList] = useState<Conversation[]>([]);
+    const [conversationList, setConversationList] = useState<ConversationType[]>([]);
 
     useEffect(() => {
         getConversationListFromServer().then((conversations) =>

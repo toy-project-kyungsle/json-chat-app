@@ -1,5 +1,6 @@
-import { conversationApiInstance } from 'api/apiInstance';
+import { conversationApiInstance } from '../api/apiInstance';
 import uuid from 'react-native-uuid';
+import { ChatType, ChatTypeForPut } from '../utils/type';
 
 // 서버에서 대화 목록을 가져옵니다.
 export const getConversationListFromServer = async () => {
@@ -14,18 +15,12 @@ export const getChatListFromServer = async (conversationId: string) => {
 };
 
 // 대화를 ID로 업데이트하고 업데이트된 데이터를 반환합니다.
-export const putConversationById = async (props: {
-    conversationId: string;
-    text: string;
-    userId?: string;
-    userName?: string;
-    userAvatarUrl?: string;
-}) => {
+export const putChatByConversationId = async (props: ChatTypeForPut) => {
     const response = await conversationApiInstance.post(`/emails`, {
-        id: uuid.v4(),
+        id: props.id || uuid.v4(),
         conversationId: props.conversationId,
         text: props.text,
-        createdAt: Date.now(),
+        createdAt: props.createdAt || Date.now(),
         userId: props.userId || 'dummyMyId',
         userName: props.userName || 'dummyMyName',
         userAvatarUrl: props.userAvatarUrl || 'https://picsum.photos/id/22/100',
