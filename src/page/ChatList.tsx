@@ -1,4 +1,3 @@
-import { getChatListFromServer, putChatByConversationId } from '../api/conversationApi';
 import { useCallback, useEffect, useState } from 'react';
 import { Button, Image, KeyboardAvoidingView, Platform, Text, View } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
@@ -6,6 +5,7 @@ import { ChatType } from '../utils/type';
 import style from '../style/ChatList';
 import io from 'socket.io-client';
 import uuid from 'react-native-uuid';
+import { getChatListFromServer, putChatByConversationId } from '../api/emailApi';
 
 const DUMMUY_MY_ID = 'dummyMyId';
 const newSocket = io('http://192.168.0.7:3000');
