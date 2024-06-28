@@ -24,99 +24,72 @@
     "conversations": [
         {
             "id": "sn4zmysy",
-            "userId": "minim12",
-            "userName": "minim",
-            "userAvatarUrl": "https://picsum.photos/id/45/100",
-            "title": "deserunt tempor deserunt",
             "createdAt": 1717632000000,
-            "updatedAt": 1717632000000
+            "updatedAt": 1717632000000,
+            "attendee": ["minim12", "magna12"]
         },
         {
-            "id": "lzr6em2b",
-            "userId": "magna12",
-            "userName": "magna",
-            "userAvatarUrl": "https://picsum.photos/id/23/100",
-            "title": "elit aute enim",
-            "createdAt": 1717631400000,
-            "updatedAt": 1717657959620
+            "id": "k3j9xw7v",
+            "createdAt": 1717632000000,
+            "updatedAt": 1717632000000,
+            "attendee": ["minim12", "irure12"]
         },
         {
-            "id": "b52j528z",
-            "userId": "irure12",
-            "userName": "irure",
-            "userAvatarUrl": "https://picsum.photos/id/49/100",
-            "title": "laborum nisi consectetur",
-            "createdAt": 1717630800000,
-            "updatedAt": 1717630800000
+            "id": "2qhp6jtf",
+            "createdAt": 1717632000000,
+            "updatedAt": 1717632000000,
+            "attendee": ["minim12", "amet12"]
         },
         {
-            "id": "reindoqq",
-            "userId": "amet12",
-            "userName": "amet",
-            "userAvatarUrl": "https://picsum.photos/id/80/100",
-            "title": "in exercitation eu",
-            "createdAt": 1717630200000,
-            "updatedAt": 1717630200000
+            "id": "8ygz4mxp",
+            "createdAt": 1717632000000,
+            "updatedAt": 1717632000000,
+            "attendee": ["minim12", "velit12"]
         },
         {
-            "id": "lgvfgwtx",
-            "userId": "velit12",
-            "userName": "velit",
-            "userAvatarUrl": "https://picsum.photos/id/64/100",
-            "title": "do consequat quis",
-            "createdAt": 1717629600000,
-            "updatedAt": 1717629600000
+            "id": "wjr5c2nt",
+            "createdAt": 1717632000000,
+            "updatedAt": 1717632000000,
+            "attendee": ["magna12", "irure12"]
+        },
+        {
+            "id": "3xq7rvzj",
+            "createdAt": 1717632000000,
+            "updatedAt": 1717632000000,
+            "attendee": ["magna12", "amet12"]
+        },
+        {
+            "id": "f4d2mhb5",
+            "createdAt": 1717632000000,
+            "updatedAt": 1717632000000,
+            "attendee": ["magna12", "velit12"]
+        },
+        {
+            "id": "9g6n2ckw",
+            "createdAt": 1717632000000,
+            "updatedAt": 1717632000000,
+            "attendee": ["irure12", "amet12"]
+        },
+        {
+            "id": "m5p8jjex",
+            "createdAt": 1717632000000,
+            "updatedAt": 1717632000000,
+            "attendee": ["irure12", "velit12"]
+        },
+        {
+            "id": "t7yfq4dn",
+            "createdAt": 1717632000000,
+            "updatedAt": 1717632000000,
+            "attendee": ["amet12", "velit12"]
         }
     ],
     "emails": [
         {
             "id": "q89vwvjf",
-            "conversationId": "lzr6em2b",
+            "conversationId": "sn4zmysy",
             "text": "Est id commodo excepteur veniam culpa reprehenderit quis cillum voluptate aliquip dolore et. Ut eiusmod labore dolor sunt velit ex. Laborum minim aliquip veniam laborum velit aliqua est fugiat consectetur minim commodo ad pariatur aute ullamco.",
             "createdAt": 1717631400000,
-            "userId": "magna12",
-            "userName": "magna",
-            "userAvatarUrl": "https://picsum.photos/id/23/100"
-        },
-        {
-            "id": "m9m0z45b",
-            "conversationId": "lzr6em2b",
-            "text": "Et tortor consequat id porta nibh venenatis.",
-            "createdAt": 1717657957935,
-            "fromUser": false,
-            "userId": "magna12",
-            "userName": "magna",
-            "userAvatarUrl": "https://picsum.photos/id/23/100"
-        },
-        {
-            "id": "8nfur1ra",
-            "conversationId": "lzr6em2b",
-            "text": "Cillum ea ea elit nisi ad Lorem laboris qui sint occaecat aute. Lorem consequat voluptate Lorem ullamco id exercitation ullamco laboris sint nisi eu excepteur id qui non. Consectetur nostrud veniam Lorem adipisicing.",
-            "createdAt": 1717657959620,
-            "fromUser": true,
-            "userId": "magna12",
-            "userName": "magna",
-            "userAvatarUrl": "https://picsum.photos/id/23/100"
-        },
-        {
-            "id": "zvk7q8t0",
-            "conversationId": "sn4zmysy",
-            "text": "Anim tempor esse ea cupidatat. Excepteur pariatur qui ut reprehenderit cupidatat officia ut. Lorem sit sunt mollit culpa ad.",
-            "createdAt": 1717632000000,
-            "fromUser": true,
-            "userId": "minim12",
-            "userName": "minim",
-            "userAvatarUrl": "https://picsum.photos/id/45/100"
-        },
-        {
-            "id": "04kfaeyu",
-            "conversationId": "b52j528z",
-            "text": "Sint quis sit nulla tempor aliquip excepteur ex sint ipsum consectetur. Aute consequat eu excepteur. Deserunt sunt cupidatat aliquip nostrud eiusmod irure incididunt dolor ad consequat labore.",
-            "createdAt": 1717630800000,
-            "fromUser": true,
-            "userId": "irure12",
-            "userName": "irure",
-            "userAvatarUrl": "https://picsum.photos/id/49/100"
+            "userId": "magna12"
         }
     ]
 }
