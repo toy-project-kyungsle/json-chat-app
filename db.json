@@ -2,23 +2,28 @@
     "users": [
         {
             "id": "minim12",
-            "name": "minim"
+            "name": "minim",
+            "avatarUrl": "https://picsum.photos/id/45/100"
         },
         {
             "id": "magna12",
-            "name": "magna"
+            "name": "magna",
+            "avatarUrl": "https://picsum.photos/id/23/100"
         },
         {
             "id": "irure12",
-            "name": "irure"
+            "name": "irure",
+            "avatarUrl": "https://picsum.photos/id/49/100"
         },
         {
             "id": "amet12",
-            "name": "amet"
+            "name": "amet",
+            "avatarUrl": "https://picsum.photos/id/80/100"
         },
         {
             "id": "velit12",
-            "name": "velit"
+            "name": "velit",
+            "avatarUrl": "https://picsum.photos/id/64/100"
         }
     ],
     "conversations": [

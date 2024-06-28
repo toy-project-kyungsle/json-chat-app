@@ -12,15 +12,17 @@ export default function ConversationList() {
     const [conversationList, setConversationList] = useState<ConversationType[]>([]);
 
     const initComponent = useCallback(() => {
-        AsyncStorage.getItem('myId').then((myId) => {
-            getConversationListFromServer().then((conversations) => {
-                const newConversationList = conversations.filter(
-                    (conversation: ConversationType) => {
-                        return conversation.userId !== myId;
-                    },
-                );
-                setConversationList(newConversationList);
-            });
+        AsyncStorage.getItem('myId').then((myId: string | null) => {
+            if (myId) {
+                getConversationListFromServer().then((conversations) => {
+                    const newConversationList = conversations.filter(
+                        (conversation: ConversationType) => {
+                            return conversation.attendee.includes(myId);
+                        },
+                    );
+                    setConversationList(newConversationList);
+                });
+            }
         });
     }, []);
 
