@@ -10,22 +10,17 @@ export interface ChatType {
 }
 
 export interface ChatTypeForPut {
-    id?: string;
+    id: string;
     conversationId: string;
     text: string;
-    createdAt?: number;
-    userId?: string;
-    userName?: string;
-    userAvatarUrl?: string;
+    createdAt: number;
+    userId: string;
 }
 
 // * conversation type
 export interface ConversationType {
     id: string;
-    userId: string;
-    userName: string;
-    userAvatarUrl: string;
-    title: string;
     createdAt: number;
     updatedAt: number;
+    attendee: string[];
 }
