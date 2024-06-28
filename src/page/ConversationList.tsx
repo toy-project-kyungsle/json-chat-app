@@ -5,9 +5,9 @@ import { ConversationType, UserType } from '../utils/type';
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
 import style from '../style/ConversationList';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useQuery } from '@tanstack/react-query';
 import { getUserListFromServer } from '../api/userApi';
+import { getMyIdFromStorage } from '../utils/function';
 
 export default function ConversationList() {
     const navigation = useNavigation();
@@ -17,12 +17,6 @@ export default function ConversationList() {
         queryKey: ['userList'],
         queryFn: getUserListFromServer,
     });
-
-    const getMyId = useCallback(async () => {
-        const myId = await AsyncStorage.getItem('myId');
-        if (!myId) return;
-        return myId;
-    }, []);
 
     const getUserInfoForList = useCallback(
         (attendee: string[]) => {
@@ -35,7 +29,7 @@ export default function ConversationList() {
     );
 
     const initComponent = useCallback(async () => {
-        const _myId = await getMyId();
+        const _myId = await getMyIdFromStorage();
         if (!_myId) return;
         setMyId(_myId);
         const conversationListFromServer = await getConversationListFromServer();
@@ -59,9 +53,6 @@ export default function ConversationList() {
                     onPress={() => {
                         navigation.navigate('ChatList', {
                             conversationId: conversation.id,
-                            userId: conversation.userId,
-                            userName: conversation.userName,
-                            userAvatarUrl: conversation.userAvatarUrl,
                         });
                     }}
                 >

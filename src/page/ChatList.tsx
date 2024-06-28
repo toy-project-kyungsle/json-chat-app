@@ -1,38 +1,48 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Button, Image, KeyboardAvoidingView, Platform, Text, View } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
-import { ChatType } from '../utils/type';
+import { ChatType, UserType } from '../utils/type';
 import style from '../style/ChatList';
 import io from 'socket.io-client';
-import uuid from 'react-native-uuid';
 import { getChatListFromServer, putChatByConversationId } from '../api/emailApi';
+import { useQuery } from '@tanstack/react-query';
+import { getUserListFromServer } from '../api/userApi';
+import { getMyIdFromStorage } from '../utils/function';
+import { getConversationByIdFromServer } from '../api/conversationApi';
 
-const DUMMUY_MY_ID = 'dummyMyId';
 const newSocket = io('http://192.168.0.7:3000');
 
 export default function ChatList({
     route,
 }: {
     route: {
-        params: { conversationId: string; userId: string; userName: string; userAvatarUrl: string };
+        params: { conversationId: string };
     };
 }) {
-    const { conversationId, userId, userName, userAvatarUrl } = route.params;
+    const { conversationId } = route.params;
     const [emails, setEmails] = useState<ChatType[]>([]);
     const [enteredText, setEnteredText] = useState<string>('');
+    const { data: userList } = useQuery({
+        queryKey: ['userList'],
+        queryFn: getUserListFromServer,
+    });
+    const { data: targetConversation } = useQuery({
+        queryKey: [`conversation-${conversationId}`],
+        queryFn: () => getConversationByIdFromServer(conversationId),
+    });
+    const [myId, setMyId] = useState<string>('');
+    const [counterUser, setCounterUser] = useState<UserType | null>(null);
 
     const handlePostChat = useCallback(async () => {
-        const newId = uuid.v4() as string;
-        const newCreatedAt = Date.now();
+        if (!counterUser) return;
         const newProp = {
-            id: newId,
             conversationId,
             text: enteredText,
-            createdAt: newCreatedAt,
+            userId: myId,
         };
-        newSocket.emit('chat', { userId, userName, userAvatarUrl, conversationId });
+        newSocket.emit('chat', { id: conversationId });
         return await putChatByConversationId(newProp);
-    }, [conversationId, enteredText]);
+    }, [conversationId, enteredText, myId, counterUser]);
 
     const handlePressChatBtn = useCallback(async () => {
         if (enteredText === '') return;
@@ -41,20 +51,39 @@ export default function ChatList({
         setEmails((emails) => [...emails, postedChat]);
     }, [conversationId, enteredText]);
 
+    const initComponent = useCallback(async () => {
+        const _myId = await getMyIdFromStorage();
+        if (!_myId) return;
+        setMyId(_myId);
+    }, [userList]);
+
     useEffect(() => {
         getChatListFromServer(conversationId).then((emails) => setEmails(emails));
     }, [conversationId]);
 
     useEffect(() => {
+        initComponent();
+    }, []);
+
+    useEffect(() => {
+        if (!targetConversation || !myId) return;
+        const _attendee = targetConversation.attendee;
+        const _counterUserId = _attendee.find((userId: string) => userId !== myId);
+        const _counterUser = userList.find((user: UserType) => user.id === _counterUserId);
+        if (!_counterUser) return;
+        setCounterUser(_counterUser);
+    }, [targetConversation, userList, myId]);
+
+    useEffect(() => {
         newSocket.connect();
-        newSocket.on('chat', (data) => {
-            setEmails((emails) => [...emails, data]);
+        newSocket.on(`chat-${conversationId}`, () => {
+            console.log('chat');
         });
         return () => {
-            newSocket.off('chat');
+            newSocket.off(`chat-${conversationId}`);
             newSocket.disconnect();
         };
-    }, []);
+    }, [conversationId]);
 
     return (
         <KeyboardAvoidingView
@@ -63,29 +92,28 @@ export default function ChatList({
             keyboardVerticalOffset={90}
         >
             <ScrollView style={style.chatView}>
-                {emails.map((email) => (
+                {emails.map((chat) => (
                     <View
-                        key={email.id}
+                        key={chat.id}
                         style={{
                             ...style.chatCard,
-                            justifyContent:
-                                email.userId === DUMMUY_MY_ID ? 'flex-end' : 'flex-start',
+                            justifyContent: chat.userId === myId ? 'flex-end' : 'flex-start',
                         }}
                     >
-                        {email.userId !== DUMMUY_MY_ID && (
+                        {chat.userId !== myId && counterUser && (
                             <View>
                                 <Image
                                     style={style.chatImage}
-                                    source={{ uri: email.userAvatarUrl }}
+                                    source={{ uri: counterUser.avatarUrl }}
                                 ></Image>
                             </View>
                         )}
                         <View>
-                            {email.userId !== DUMMUY_MY_ID && (
-                                <Text style={style.counterUserName}>{email.userName}</Text>
+                            {chat.userId !== myId && counterUser && (
+                                <Text style={style.counterUserName}>{counterUser.name}</Text>
                             )}
                             <View style={style.chatContent}>
-                                <Text style={style.chatText}>{email.text}</Text>
+                                <Text style={style.chatText}>{chat.text}</Text>
                             </View>
                         </View>
                     </View>

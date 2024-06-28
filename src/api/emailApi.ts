@@ -15,9 +15,7 @@ export const putChatByConversationId = async (props: ChatTypeForPut) => {
         conversationId: props.conversationId,
         text: props.text,
         createdAt: props.createdAt || Date.now(),
-        userId: props.userId || 'dummyMyId',
-        userName: props.userName || 'dummyMyName',
-        userAvatarUrl: props.userAvatarUrl || 'https://picsum.photos/id/22/100',
+        userId: props.userId,
     });
     return response.data;
 };

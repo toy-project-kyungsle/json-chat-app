@@ -5,15 +5,13 @@ export interface ChatType {
     text: string;
     createdAt: number;
     userId: string;
-    userName: string;
-    userAvatarUrl: string;
 }
 
 export interface ChatTypeForPut {
-    id: string;
+    id?: string;
     conversationId: string;
     text: string;
-    createdAt: number;
+    createdAt?: number;
     userId: string;
 }
 

@@ -31,6 +31,7 @@ io.on('connection', (socket) => {
     // 클라이언트로부터 메시지 수신
     socket.on('chat', (data) => {
         console.log('Received message from client:', data);
+        socket.emit(`chat-${data.id}`);
     });
 
     // 클라이언트 연결 종료 이벤트 처리
