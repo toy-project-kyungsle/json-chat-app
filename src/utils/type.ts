@@ -24,3 +24,10 @@ export interface ConversationType {
     updatedAt: number;
     attendee: string[];
 }
+
+// * user type
+export interface UserType {
+    id: string;
+    name: string;
+    avatarUrl: string;
+}
