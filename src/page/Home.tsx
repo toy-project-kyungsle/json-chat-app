@@ -21,15 +21,14 @@ export default function Home() {
 
     return (
         <View style={style.container}>
-            <View>
-                {userList?.map((user: UserType) => (
-                    <TouchableOpacity onPress={() => handlePressBtn(user)}>
-                        <View>
-                            <Text>{user.id}</Text>
-                        </View>
-                    </TouchableOpacity>
-                ))}
-            </View>
+            <Text style={style.guideText}>Press Your ID!</Text>
+            {userList?.map((user: UserType) => (
+                <TouchableOpacity onPress={() => handlePressBtn(user)} style={style.button}>
+                    <View>
+                        <Text>{user.id}</Text>
+                    </View>
+                </TouchableOpacity>
+            ))}
         </View>
     );
 }
