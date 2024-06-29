@@ -1,27 +1,43 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Text, View, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { getConversationListFromServer } from '../api/conversationApi';
-import { ConversationType } from '../utils/type';
+import { ConversationType, UserType } from '../utils/type';
 import { useNavigation } from '@react-navigation/native';
 import moment from 'moment';
 import style from '../style/ConversationList';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useQuery } from '@tanstack/react-query';
+import { getUserListFromServer } from '../api/userApi';
+import { getMyIdFromStorage } from '../utils/function';
 
 export default function ConversationList() {
     const navigation = useNavigation();
     const [conversationList, setConversationList] = useState<ConversationType[]>([]);
+    const [myId, setMyId] = useState<string>('');
+    const { data: userList } = useQuery({
+        queryKey: ['userList'],
+        queryFn: getUserListFromServer,
+    });
 
-    const initComponent = useCallback(() => {
-        AsyncStorage.getItem('myId').then((myId) => {
-            getConversationListFromServer().then((conversations) => {
-                const newConversationList = conversations.filter(
-                    (conversation: ConversationType) => {
-                        return conversation.userId !== myId;
-                    },
-                );
-                setConversationList(newConversationList);
-            });
-        });
+    const getUserInfoForList = useCallback(
+        (attendee: string[]) => {
+            if (!attendee || !userList) return;
+            const targetId = attendee.find((id) => id !== myId);
+            const targetUser = userList.find((user: UserType) => user.id === targetId);
+            return targetUser;
+        },
+        [myId, userList],
+    );
+
+    const initComponent = useCallback(async () => {
+        const _myId = await getMyIdFromStorage();
+        if (!_myId) return;
+        setMyId(_myId);
+        const conversationListFromServer = await getConversationListFromServer();
+        if (!conversationListFromServer) return;
+        const newConversationList = conversationListFromServer.filter(
+            (conversation: ConversationType) => conversation.attendee.includes(_myId),
+        );
+        setConversationList(newConversationList);
     }, []);
 
     useEffect(() => {
@@ -37,9 +53,6 @@ export default function ConversationList() {
                     onPress={() => {
                         navigation.navigate('ChatList', {
                             conversationId: conversation.id,
-                            userId: conversation.userId,
-                            userName: conversation.userName,
-                            userAvatarUrl: conversation.userAvatarUrl,
                         });
                     }}
                 >
@@ -47,12 +60,15 @@ export default function ConversationList() {
                         <View>
                             <Image
                                 style={style.userImage}
-                                source={{ uri: conversation.userAvatarUrl }}
+                                source={{
+                                    uri: getUserInfoForList(conversation.attendee)?.avatarUrl,
+                                }}
                             ></Image>
                         </View>
                         <View>
-                            <Text style={style.userName}>{conversation.userName}</Text>
-                            <Text>{conversation.title}</Text>
+                            <Text style={style.userName}>
+                                {getUserInfoForList(conversation.attendee)?.name}
+                            </Text>
                         </View>
                     </View>
                     <View>

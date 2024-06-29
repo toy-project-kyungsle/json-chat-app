@@ -5,8 +5,6 @@ export interface ChatType {
     text: string;
     createdAt: number;
     userId: string;
-    userName: string;
-    userAvatarUrl: string;
 }
 
 export interface ChatTypeForPut {
@@ -14,18 +12,20 @@ export interface ChatTypeForPut {
     conversationId: string;
     text: string;
     createdAt?: number;
-    userId?: string;
-    userName?: string;
-    userAvatarUrl?: string;
+    userId: string;
 }
 
 // * conversation type
 export interface ConversationType {
     id: string;
-    userId: string;
-    userName: string;
-    userAvatarUrl: string;
-    title: string;
     createdAt: number;
     updatedAt: number;
+    attendee: string[];
+}
+
+// * user type
+export interface UserType {
+    id: string;
+    name: string;
+    avatarUrl: string;
 }
