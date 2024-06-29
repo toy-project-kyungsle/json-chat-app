@@ -1,52 +1,57 @@
 import { StyleSheet } from 'react-native';
-import { theme } from '../utils/colors';
+
+const commonMargin = 20;
+const imageSize = 60;
 
 const style = StyleSheet.create({
     container: {
         position: 'relative',
-        backgroundColor: theme.bg,
-        height: '100%',
         flexDirection: 'column',
         justifyContent: 'space-between',
+        height: '100%',
     },
-    chatView: {
-        paddingHorizontal: 20,
-        backgroundColor: 'yellow',
+    chatScrollView: {
+        paddingHorizontal: commonMargin,
+        backgroundColor: '#FFE500',
     },
     chatCard: {
-        width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginTop: 20,
         gap: 10,
+        width: '100%',
+        marginTop: commonMargin,
     },
     chatContent: {
-        maxWidth: 250,
-        padding: 20,
         flexDirection: 'column',
         alignItems: 'flex-start',
-        backgroundColor: '#f0f0f0',
+        maxWidth: 250,
+        padding: commonMargin,
         borderRadius: 10,
+        backgroundColor: '#fff',
     },
     chatText: {
-        color: theme.grey,
+        color: '#3A3D40',
     },
     counterUserName: {
         fontWeight: 'bold',
     },
     chatImage: {
-        width: 60,
-        height: 60,
+        width: imageSize,
+        height: imageSize,
         borderRadius: 10,
     },
     InputView: {
-        width: '100%',
-        height: 70,
-        paddingHorizontal: 20,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: 'white',
+        width: '100%',
+        height: imageSize,
+        paddingHorizontal: commonMargin,
+        backgroundColor: '#fff',
+    },
+    textInput: {
+        flex: 1,
+        height: '100%',
     },
 });
 

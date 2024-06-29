@@ -97,7 +97,7 @@ export default function ChatList({
             style={style.container}
             keyboardVerticalOffset={90}
         >
-            <ScrollView style={style.chatView}>
+            <ScrollView style={style.chatScrollView}>
                 {emails.map((chat) => (
                     <View
                         key={chat.id}
@@ -130,6 +130,7 @@ export default function ChatList({
                     placeholder="Enter text here"
                     value={enteredText}
                     onChangeText={(text) => setEnteredText(text)}
+                    style={style.textInput}
                 ></TextInput>
                 <Button title="Send" onPress={handlePressChatBtn} />
             </View>

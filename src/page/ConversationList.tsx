@@ -56,7 +56,7 @@ export default function ConversationList() {
                         });
                     }}
                 >
-                    <View style={style.leftBox}>
+                    <View style={style.userInfoView}>
                         <View>
                             <Image
                                 style={style.userImage}
@@ -71,7 +71,7 @@ export default function ConversationList() {
                             </Text>
                         </View>
                     </View>
-                    <View>
+                    <View style={style.convoView}>
                         <Text>{moment(conversation.updatedAt).format('hh:mm')}</Text>
                     </View>
                 </TouchableOpacity>

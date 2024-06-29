@@ -1,9 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { theme } from '../utils/colors';
 
 const style = StyleSheet.create({
     container: {
+        height: '100%',
         padding: 20,
+        backgroundColor: '#FFE500',
     },
     guideText: {
         fontSize: 20,
@@ -13,7 +14,7 @@ const style = StyleSheet.create({
     button: {
         height: 50,
         borderRadius: 5,
-        backgroundColor: theme.bg,
+        backgroundColor: '#fff',
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 20,
