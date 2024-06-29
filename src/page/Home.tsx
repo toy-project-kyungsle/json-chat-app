@@ -1,34 +1,34 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { Text, View, TouchableOpacity, ScrollView, Alert, Button } from 'react-native';
+import React, { useCallback } from 'react';
+import { Text, View, TouchableOpacity } from 'react-native';
 import style from '../style/Home';
-import { TextInput } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-
-const userIds = ['minim12', 'magna12', 'irure12', 'amet12', 'velit12'];
+import { useQuery } from '@tanstack/react-query';
+import { getUserListFromServer } from '../api/userApi';
+import { UserType } from '../utils/type';
 
 export default function Home() {
     const navigation = useNavigation();
-    const [myId, setMyId] = useState<string>('velit12');
+    const { data: userList } = useQuery({
+        queryKey: ['userList'],
+        queryFn: getUserListFromServer,
+    });
 
-    const handlePressEnterBtn = useCallback(() => {
-        if (userIds.includes(myId)) {
-            AsyncStorage.setItem('myId', myId);
-            navigation.navigate('ConversationList');
-            return;
-        }
-        Alert.alert('invalid id');
-    }, [myId]);
+    const handlePressBtn = useCallback((user: UserType) => {
+        AsyncStorage.setItem('myId', user.id);
+        navigation.navigate('ConversationList');
+    }, []);
 
     return (
         <View style={style.container}>
             <View>
-                <TextInput
-                    placeholder="enter your ID"
-                    value={myId}
-                    onChangeText={(text) => setMyId(text)}
-                ></TextInput>
-                <Button title="Enter" onPress={handlePressEnterBtn}></Button>
+                {userList?.map((user: UserType) => (
+                    <TouchableOpacity onPress={() => handlePressBtn(user)}>
+                        <View>
+                            <Text>{user.id}</Text>
+                        </View>
+                    </TouchableOpacity>
+                ))}
             </View>
         </View>
     );
