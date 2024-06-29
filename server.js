@@ -6,7 +6,12 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIO(server, {
     cors: {
-        origin: ['http://192.168.0.7:19006', 'http://192.168.0.8:19006'],
+        origin: [
+            'http://192.168.0.7:19006',
+            'http://localhost:19006',
+            'http://192.168.0.7:8081',
+            'http://localhost:8081',
+        ],
         methods: ['GET', 'POST'],
         credentials: true,
     },
@@ -31,7 +36,8 @@ io.on('connection', (socket) => {
     // 클라이언트로부터 메시지 수신
     socket.on('chat', (data) => {
         console.log('Received message from client:', data);
-        socket.emit(`chat-${data.id}`);
+        // socket.emit(`chat-${data.id}`);
+        io.emit(`chat-${data.id}`, data);
     });
 
     // 클라이언트 연결 종료 이벤트 처리

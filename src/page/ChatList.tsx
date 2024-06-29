@@ -41,14 +41,20 @@ export default function ChatList({
             userId: myId,
         };
         newSocket.emit('chat', { id: conversationId });
+        newSocket.emit(`chat-${conversationId}`);
         return await putChatByConversationId(newProp);
     }, [conversationId, enteredText, myId, counterUser]);
+
+    const syncChatStateWithServer = useCallback(async () => {
+        const _emails = await getChatListFromServer(conversationId);
+        setEmails(_emails);
+    }, [conversationId]);
 
     const handlePressChatBtn = useCallback(async () => {
         if (enteredText === '') return;
         const postedChat = await handlePostChat();
         setEnteredText('');
-        setEmails((emails) => [...emails, postedChat]);
+        await syncChatStateWithServer();
     }, [conversationId, enteredText]);
 
     const initComponent = useCallback(async () => {
@@ -58,8 +64,8 @@ export default function ChatList({
     }, [userList]);
 
     useEffect(() => {
-        getChatListFromServer(conversationId).then((emails) => setEmails(emails));
-    }, [conversationId]);
+        syncChatStateWithServer();
+    }, [syncChatStateWithServer]);
 
     useEffect(() => {
         initComponent();
@@ -77,7 +83,7 @@ export default function ChatList({
     useEffect(() => {
         newSocket.connect();
         newSocket.on(`chat-${conversationId}`, () => {
-            console.log('chat');
+            syncChatStateWithServer();
         });
         return () => {
             newSocket.off(`chat-${conversationId}`);
