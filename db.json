@@ -1,5 +1,5 @@
 {
-    "users": [
+    "user": [
         {
             "id": "minim12",
             "name": "minim",
@@ -26,7 +26,7 @@
             "avatarUrl": "https://picsum.photos/id/64/100"
         }
     ],
-    "conversations": [
+    "chatInfo": [
         {
             "id": "sn4zmysy",
             "createdAt": 1717632000000,
@@ -88,10 +88,10 @@
             "attendee": ["amet12", "velit12"]
         }
     ],
-    "emails": [
+    "chat": [
         {
             "id": "q89vwvjf",
-            "conversationId": "sn4zmysy",
+            "infoId": "sn4zmysy",
             "text": "Est id commodo excepteur veniam culpa reprehenderit quis cillum voluptate aliquip dolore et. Ut eiusmod labore dolor sunt velit ex. Laborum minim aliquip veniam laborum velit aliqua est fugiat consectetur minim commodo ad pariatur aute ullamco.",
             "createdAt": 1717631400000,
             "userId": "magna12"

@@ -16,7 +16,7 @@ export default function Home() {
 
     const handlePressBtn = useCallback((user: UserType) => {
         AsyncStorage.setItem('myId', user.id);
-        navigation.navigate('ConversationList');
+        navigation.navigate('ChatList');
     }, []);
 
     return (

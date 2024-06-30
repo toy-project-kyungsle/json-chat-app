@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import ChatPage from './src/page/ChatPage';
 import ChatList from './src/page/ChatList';
-import ConversationList from './src/page/ConversationList';
 import Home from './src/page/Home';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -14,8 +14,8 @@ export default function App() {
             <QueryClientProvider client={queryClient}>
                 <Stack.Navigator>
                     <Stack.Screen name="Home" component={Home} />
-                    <Stack.Screen name="ConversationList" component={ConversationList} />
                     <Stack.Screen name="ChatList" component={ChatList} />
+                    <Stack.Screen name="ChatPage" component={ChatPage} />
                 </Stack.Navigator>
             </QueryClientProvider>
         </NavigationContainer>

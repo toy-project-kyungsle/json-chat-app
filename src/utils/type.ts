@@ -1,7 +1,7 @@
 // * chat type
 export interface ChatType {
     id: string;
-    conversationId: string;
+    infoId: string;
     text: string;
     createdAt: number;
     userId: string;
@@ -9,14 +9,14 @@ export interface ChatType {
 
 export interface ChatTypeForPut {
     id?: string;
-    conversationId: string;
+    infoId: string;
     text: string;
     createdAt?: number;
     userId: string;
 }
 
 // * conversation type
-export interface ConversationType {
+export interface ChatInfoType {
     id: string;
     createdAt: number;
     updatedAt: number;
