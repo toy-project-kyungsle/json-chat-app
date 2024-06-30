@@ -1,31 +1,20 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { ChatInfoType, ChatType, UserType } from '../utils/type';
+import { useCallback, useEffect, useState } from 'react';
+import { ChatType } from '../utils/type';
 import { getAllChatByIdFromServer, putChatByInfoId } from '../api/chatApi';
-import { useQuery } from '@tanstack/react-query';
-import { getChatInfoByIdFromServer } from '../api/chatInfoApi';
+
 import useMyId from './useMyId';
-import useUser from './useUser';
 import useSocketWithInfoId from './useSocketWithInfoId';
 
-const useChatPageComponent = (chatInfoId: string) => {
+const useChat = (chatInfoId: string) => {
     const { myId } = useMyId();
-    const { getCounterUser } = useUser();
     const { newSocket } = useSocketWithInfoId(chatInfoId, () => syncChatStateWithServer());
     const [chats, setChats] = useState<ChatType[]>([]);
     const [enteredText, setEnteredText] = useState<string>('');
-    const { data: targetChatInfo } = useQuery<ChatInfoType>({
-        queryKey: [`chatInfo-${chatInfoId}`],
-        queryFn: () => getChatInfoByIdFromServer(chatInfoId),
-    });
-    const counterUser = useMemo(
-        () => getCounterUser(targetChatInfo),
-        [targetChatInfo, getCounterUser],
-    );
 
     const syncChatStateWithServer = useCallback(async () => {
         const _emails = await getAllChatByIdFromServer(chatInfoId);
         setChats(_emails);
-    }, [chatInfoId]);
+    }, []);
 
     const handlePostChat = useCallback(async () => {
         const newProp = {
@@ -34,7 +23,7 @@ const useChatPageComponent = (chatInfoId: string) => {
             userId: myId,
         };
         return await putChatByInfoId(newProp);
-    }, [enteredText, myId, chatInfoId]);
+    }, [enteredText, myId]);
 
     const handlePressChatBtn = useCallback(async () => {
         if (enteredText === '') return;
@@ -42,6 +31,10 @@ const useChatPageComponent = (chatInfoId: string) => {
         newSocket.emit('chat', { id: chatInfoId });
         setEnteredText('');
     }, [enteredText, handlePostChat]);
+
+    const onChangeChatText = useCallback((text: string) => {
+        setEnteredText(text);
+    }, []);
 
     useEffect(() => {
         syncChatStateWithServer();
@@ -51,10 +44,11 @@ const useChatPageComponent = (chatInfoId: string) => {
         chats,
         enteredText,
         setEnteredText,
-        counterUser,
+        syncChatStateWithServer,
+        handlePostChat,
         handlePressChatBtn,
-        myId,
+        onChangeChatText,
     };
 };
 
-export default useChatPageComponent;
+export default useChat;

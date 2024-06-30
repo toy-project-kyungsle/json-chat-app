@@ -1,7 +1,13 @@
 import { Button, Image, KeyboardAvoidingView, Platform, Text, View } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import style from '../style/ChatPage';
-import useChatComponent from '../hook/useChatPageComponent';
+import useChat from '../hook/useChat';
+import useMyId from '../hook/useMyId';
+import useUser from '../hook/useUser';
+import { useQuery } from '@tanstack/react-query';
+import { ChatInfoType } from '../utils/type';
+import { getChatInfoByIdFromServer } from '../api/chatInfoApi';
+import { useMemo } from 'react';
 
 export default function Chat({
     route,
@@ -10,8 +16,18 @@ export default function Chat({
         params: { chatInfoId: string };
     };
 }) {
-    const { myId, chats, enteredText, counterUser, setEnteredText, handlePressChatBtn } =
-        useChatComponent(route.params.chatInfoId);
+    const chatInfoId = route.params.chatInfoId;
+    const { myId } = useMyId();
+    const { getCounterUser } = useUser();
+    const { chats, enteredText, onChangeChatText, handlePressChatBtn } = useChat(chatInfoId);
+    const { data: targetChatInfo } = useQuery<ChatInfoType>({
+        queryKey: [`chatInfo-${chatInfoId}`],
+        queryFn: () => getChatInfoByIdFromServer(chatInfoId),
+    });
+    const counterUser = useMemo(
+        () => getCounterUser(targetChatInfo),
+        [targetChatInfo, getCounterUser],
+    );
 
     return (
         <KeyboardAvoidingView
@@ -51,7 +67,7 @@ export default function Chat({
                 <TextInput
                     placeholder="Enter text here"
                     value={enteredText}
-                    onChangeText={(text) => setEnteredText(text)}
+                    onChangeText={onChangeChatText}
                     style={style.textInput}
                 ></TextInput>
                 <Button title="Send" onPress={handlePressChatBtn} />
