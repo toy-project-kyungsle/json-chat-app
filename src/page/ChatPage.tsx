@@ -40,9 +40,8 @@ export default function Chat({
             text: enteredText,
             userId: myId,
         };
-        newSocket.emit('chat', { id: chatInfoId });
         return await putChatByInfoId(newProp);
-    }, [chatInfoId, enteredText, myId, counterUser]);
+    }, [enteredText, myId, counterUser, chatInfoId]);
 
     const syncChatStateWithServer = useCallback(async () => {
         const _emails = await getAllChatByIdFromServer(chatInfoId);
@@ -52,9 +51,9 @@ export default function Chat({
     const handlePressChatBtn = useCallback(async () => {
         if (enteredText === '') return;
         await handlePostChat();
+        newSocket.emit('chat', { id: chatInfoId });
         setEnteredText('');
-        await syncChatStateWithServer();
-    }, [enteredText, handlePostChat, syncChatStateWithServer]);
+    }, [enteredText, handlePostChat]);
 
     const initComponent = useCallback(async () => {
         const _myId = await getMyIdFromStorage();
@@ -82,7 +81,6 @@ export default function Chat({
     useEffect(() => {
         newSocket.connect();
         newSocket.on(`chat-${chatInfoId}`, () => {
-            // alert('new message');
             syncChatStateWithServer();
         });
         return () => {
