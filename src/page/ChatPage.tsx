@@ -9,6 +9,7 @@ import { useQuery } from '@tanstack/react-query';
 import { getUserListFromServer } from '../api/userApi';
 import { getMyIdFromStorage } from '../utils/function';
 import { getChatInfoByIdFromServer } from '../api/chatInfoApi';
+import useMyId from '../hook/useMyId';
 
 const newSocket = io('http://192.168.0.7:3000');
 
@@ -20,6 +21,7 @@ export default function Chat({
     };
 }) {
     const { chatInfoId } = route.params;
+    const { myId } = useMyId();
     const [chats, setChats] = useState<ChatType[]>([]);
     const [enteredText, setEnteredText] = useState<string>('');
     const { data: userList } = useQuery<UserType[]>({
@@ -30,7 +32,6 @@ export default function Chat({
         queryKey: [`conversation-${chatInfoId}`],
         queryFn: () => getChatInfoByIdFromServer(chatInfoId),
     });
-    const [myId, setMyId] = useState<string>('');
     const [counterUser, setCounterUser] = useState<UserType | null>(null);
 
     const handlePostChat = useCallback(async () => {
@@ -54,16 +55,6 @@ export default function Chat({
         newSocket.emit('chat', { id: chatInfoId });
         setEnteredText('');
     }, [enteredText, handlePostChat]);
-
-    const initComponent = useCallback(async () => {
-        const _myId = await getMyIdFromStorage();
-        if (!_myId) return;
-        setMyId(_myId);
-    }, [userList]);
-
-    useEffect(() => {
-        initComponent();
-    }, []);
 
     useEffect(() => {
         if (!targetChatInfo || !myId || !userList) return;

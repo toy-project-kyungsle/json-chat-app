@@ -8,10 +8,11 @@ import style from '../style/ChatList';
 import { useQuery } from '@tanstack/react-query';
 import { getUserListFromServer } from '../api/userApi';
 import { getMyIdFromStorage } from '../utils/function';
+import useMyId from '../hook/useMyId';
 
 export default function ChatList() {
     const navigation = useNavigation();
-    const [myId, setMyId] = useState<string>('');
+    const { myId } = useMyId();
     const { data: userList } = useQuery<UserType[]>({
         queryKey: ['userList'],
         queryFn: getUserListFromServer,
@@ -36,16 +37,6 @@ export default function ChatList() {
         },
         [myId, userList],
     );
-
-    const initComponent = useCallback(async () => {
-        const _myId = await getMyIdFromStorage();
-        if (!_myId) return;
-        setMyId(_myId);
-    }, []);
-
-    useEffect(() => {
-        initComponent();
-    }, []);
 
     return (
         <ScrollView style={style.container}>
