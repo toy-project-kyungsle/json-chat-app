@@ -1,17 +1,7 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Alert, Button, Image, KeyboardAvoidingView, Platform, Text, View } from 'react-native';
+import { Button, Image, KeyboardAvoidingView, Platform, Text, View } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
-import { ChatInfoType, ChatType, UserType } from '../utils/type';
 import style from '../style/ChatPage';
-import io from 'socket.io-client';
-import { getAllChatByIdFromServer, putChatByInfoId } from '../api/chatApi';
-import { useQuery } from '@tanstack/react-query';
-import { getUserListFromServer } from '../api/userApi';
-import { getMyIdFromStorage } from '../utils/function';
-import { getChatInfoByIdFromServer } from '../api/chatInfoApi';
-import useMyId from '../hook/useMyId';
-
-const newSocket = io('http://192.168.0.7:3000');
+import useChatComponent from '../hook/useChatPageComponent';
 
 export default function Chat({
     route,
@@ -20,57 +10,8 @@ export default function Chat({
         params: { chatInfoId: string };
     };
 }) {
-    const { chatInfoId } = route.params;
-    const { myId } = useMyId();
-    const [chats, setChats] = useState<ChatType[]>([]);
-    const [enteredText, setEnteredText] = useState<string>('');
-    const { data: userList } = useQuery<UserType[]>({
-        queryKey: ['userList'],
-        queryFn: getUserListFromServer,
-    });
-    const { data: targetChatInfo } = useQuery<ChatInfoType>({
-        queryKey: [`chatInfo-${chatInfoId}`],
-        queryFn: () => getChatInfoByIdFromServer(chatInfoId),
-    });
-    const counterUser = useMemo(() => {
-        if (!targetChatInfo || !myId || !userList) return null;
-        const _attendee = targetChatInfo.attendee;
-        const _counterUserId = _attendee.find((userId: string) => userId !== myId);
-        const _counterUser = userList.find((user: UserType) => user.id === _counterUserId);
-        return _counterUser;
-    },[ targetChatInfo, userList, myId]);
-
-    const handlePostChat = useCallback(async () => {
-        const newProp = {
-            infoId: chatInfoId,
-            text: enteredText,
-            userId: myId,
-        };
-        return await putChatByInfoId(newProp);
-    }, [enteredText, myId, chatInfoId]);
-
-    const syncChatStateWithServer = useCallback(async () => {
-        const _emails = await getAllChatByIdFromServer(chatInfoId);
-        setChats(_emails);
-    }, [chatInfoId]);
-
-    const handlePressChatBtn = useCallback(async () => {
-        if (enteredText === '') return;
-        await handlePostChat();
-        newSocket.emit('chat', { id: chatInfoId });
-        setEnteredText('');
-    }, [enteredText, handlePostChat]);
-
-    useEffect(() => {
-        newSocket.connect();
-        newSocket.on(`chat-${chatInfoId}`, () => {
-            syncChatStateWithServer();
-        });
-        return () => {
-            newSocket.off(`chat-${chatInfoId}`);
-            newSocket.disconnect();
-        };
-    }, [chatInfoId]);
+    const { myId, chats, enteredText, counterUser, setEnteredText, handlePressChatBtn } =
+        useChatComponent(route.params.chatInfoId);
 
     return (
         <KeyboardAvoidingView
