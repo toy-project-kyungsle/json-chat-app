@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Alert, Button, Image, KeyboardAvoidingView, Platform, Text, View } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { ChatInfoType, ChatType, UserType } from '../utils/type';
@@ -29,20 +29,25 @@ export default function Chat({
         queryFn: getUserListFromServer,
     });
     const { data: targetChatInfo } = useQuery<ChatInfoType>({
-        queryKey: [`conversation-${chatInfoId}`],
+        queryKey: [`chatInfo-${chatInfoId}`],
         queryFn: () => getChatInfoByIdFromServer(chatInfoId),
     });
-    const [counterUser, setCounterUser] = useState<UserType | null>(null);
+    const counterUser = useMemo(() => {
+        if (!targetChatInfo || !myId || !userList) return null;
+        const _attendee = targetChatInfo.attendee;
+        const _counterUserId = _attendee.find((userId: string) => userId !== myId);
+        const _counterUser = userList.find((user: UserType) => user.id === _counterUserId);
+        return _counterUser;
+    },[ targetChatInfo, userList, myId]);
 
     const handlePostChat = useCallback(async () => {
-        if (!counterUser) return;
         const newProp = {
             infoId: chatInfoId,
             text: enteredText,
             userId: myId,
         };
         return await putChatByInfoId(newProp);
-    }, [enteredText, myId, counterUser, chatInfoId]);
+    }, [enteredText, myId, chatInfoId]);
 
     const syncChatStateWithServer = useCallback(async () => {
         const _emails = await getAllChatByIdFromServer(chatInfoId);
@@ -55,15 +60,6 @@ export default function Chat({
         newSocket.emit('chat', { id: chatInfoId });
         setEnteredText('');
     }, [enteredText, handlePostChat]);
-
-    useEffect(() => {
-        if (!targetChatInfo || !myId || !userList) return;
-        const _attendee = targetChatInfo.attendee;
-        const _counterUserId = _attendee.find((userId: string) => userId !== myId);
-        const _counterUser = userList.find((user: UserType) => user.id === _counterUserId);
-        if (!_counterUser) return;
-        setCounterUser(_counterUser);
-    }, [targetChatInfo, userList, myId]);
 
     useEffect(() => {
         newSocket.connect();
