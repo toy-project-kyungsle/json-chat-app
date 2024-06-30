@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Text, View, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { getAllChatInfoFromServer } from '../api/chatInfoApi';
 import { ChatInfoType, UserType } from '../utils/type';
@@ -11,12 +11,21 @@ import { getMyIdFromStorage } from '../utils/function';
 
 export default function ChatList() {
     const navigation = useNavigation();
-    const [conversationList, setConversationList] = useState<ChatInfoType[]>([]);
     const [myId, setMyId] = useState<string>('');
-    const { data: userList } = useQuery({
+    const { data: userList } = useQuery<UserType[]>({
         queryKey: ['userList'],
         queryFn: getUserListFromServer,
     });
+    const { data: chatInfoFromServer } = useQuery<ChatInfoType[]>({
+        queryKey: ['chatInfo', myId],
+        queryFn: getAllChatInfoFromServer,
+    });
+    const chatInfoForMe = useMemo(() => {
+        if (!chatInfoFromServer) return;
+        return chatInfoFromServer.filter((chatInfo: ChatInfoType) =>
+            chatInfo.attendee.includes(myId),
+        );
+    }, [chatInfoFromServer, myId]);
 
     const getUserInfoForList = useCallback(
         (attendee: string[]) => {
@@ -32,13 +41,6 @@ export default function ChatList() {
         const _myId = await getMyIdFromStorage();
         if (!_myId) return;
         setMyId(_myId);
-        const conversationListFromServer = await getAllChatInfoFromServer();
-        console.log(conversationListFromServer);
-        if (!conversationListFromServer) return;
-        const newConversationList = conversationListFromServer.filter(
-            (conversation: ChatInfoType) => conversation.attendee.includes(_myId),
-        );
-        setConversationList(newConversationList);
     }, []);
 
     useEffect(() => {
@@ -47,13 +49,13 @@ export default function ChatList() {
 
     return (
         <ScrollView style={style.container}>
-            {conversationList.map((conversation) => (
+            {chatInfoForMe?.map((info) => (
                 <TouchableOpacity
-                    key={conversation.id}
+                    key={info.id}
                     style={style.conversationCard}
                     onPress={() => {
                         navigation.navigate('ChatPage', {
-                            chatInfoId: conversation.id,
+                            chatInfoId: info.id,
                         });
                     }}
                 >
@@ -62,18 +64,18 @@ export default function ChatList() {
                             <Image
                                 style={style.userImage}
                                 source={{
-                                    uri: getUserInfoForList(conversation.attendee)?.avatarUrl,
+                                    uri: getUserInfoForList(info.attendee)?.avatarUrl,
                                 }}
                             ></Image>
                         </View>
                         <View>
                             <Text style={style.userName}>
-                                {getUserInfoForList(conversation.attendee)?.name}
+                                {getUserInfoForList(info.attendee)?.name}
                             </Text>
                         </View>
                     </View>
                     <View style={style.convoView}>
-                        <Text>{moment(conversation.updatedAt).format('hh:mm')}</Text>
+                        <Text>{moment(info.updatedAt).format('hh:mm')}</Text>
                     </View>
                 </TouchableOpacity>
             ))}

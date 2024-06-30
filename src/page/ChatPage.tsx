@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Alert, Button, Image, KeyboardAvoidingView, Platform, Text, View } from 'react-native';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
-import { ChatType, UserType } from '../utils/type';
+import { ChatInfoType, ChatType, UserType } from '../utils/type';
 import style from '../style/ChatPage';
 import io from 'socket.io-client';
 import { getAllChatByIdFromServer, putChatByInfoId } from '../api/chatApi';
@@ -20,13 +20,13 @@ export default function Chat({
     };
 }) {
     const { chatInfoId } = route.params;
-    const [emails, setEmails] = useState<ChatType[]>([]);
+    const [chats, setChats] = useState<ChatType[]>([]);
     const [enteredText, setEnteredText] = useState<string>('');
-    const { data: userList } = useQuery({
+    const { data: userList } = useQuery<UserType[]>({
         queryKey: ['userList'],
         queryFn: getUserListFromServer,
     });
-    const { data: targetConversation } = useQuery({
+    const { data: targetChatInfo } = useQuery<ChatInfoType>({
         queryKey: [`conversation-${chatInfoId}`],
         queryFn: () => getChatInfoByIdFromServer(chatInfoId),
     });
@@ -45,7 +45,7 @@ export default function Chat({
 
     const syncChatStateWithServer = useCallback(async () => {
         const _emails = await getAllChatByIdFromServer(chatInfoId);
-        setEmails(_emails);
+        setChats(_emails);
     }, [chatInfoId]);
 
     const handlePressChatBtn = useCallback(async () => {
@@ -62,21 +62,17 @@ export default function Chat({
     }, [userList]);
 
     useEffect(() => {
-        syncChatStateWithServer();
-    }, [syncChatStateWithServer]);
-
-    useEffect(() => {
         initComponent();
     }, []);
 
     useEffect(() => {
-        if (!targetConversation || !myId) return;
-        const _attendee = targetConversation.attendee;
+        if (!targetChatInfo || !myId || !userList) return;
+        const _attendee = targetChatInfo.attendee;
         const _counterUserId = _attendee.find((userId: string) => userId !== myId);
         const _counterUser = userList.find((user: UserType) => user.id === _counterUserId);
         if (!_counterUser) return;
         setCounterUser(_counterUser);
-    }, [targetConversation, userList, myId]);
+    }, [targetChatInfo, userList, myId]);
 
     useEffect(() => {
         newSocket.connect();
@@ -96,7 +92,7 @@ export default function Chat({
             keyboardVerticalOffset={90}
         >
             <ScrollView style={style.chatScrollView}>
-                {emails.map((chat) => (
+                {chats.map((chat) => (
                     <View
                         key={chat.id}
                         style={{
